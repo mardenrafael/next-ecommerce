@@ -4,7 +4,7 @@ export interface HeaderProps {
   title: String;
 }
 
-export default function Header({ title }: HeaderProps) {
+export default function Header({ title }: HeaderProps): JSX.Element {
   return (
     <header className="flex flex-col items-center border border-black">
       <NavBar />
