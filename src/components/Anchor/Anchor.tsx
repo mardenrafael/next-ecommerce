@@ -5,6 +5,7 @@ export interface AnchorProps extends PropsWithChildren {
   className?: string;
   extend?: boolean;
   target?: string;
+  blankStyle?: boolean;
 }
 
 export default function Anchor({
@@ -12,6 +13,7 @@ export default function Anchor({
   className,
   extend,
   target,
+  blankStyle,
   children,
 }: AnchorProps): JSX.Element {
   const DEFAULT_CLASS_NAME =
@@ -22,7 +24,9 @@ export default function Anchor({
       href={href}
       target={target}
       className={
-        className
+        blankStyle
+          ? ""
+          : className
           ? extend
             ? DEFAULT_CLASS_NAME + className
             : className
