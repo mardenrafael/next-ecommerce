@@ -2,13 +2,32 @@ import { PropsWithChildren } from "react";
 
 export interface AnchorProps extends PropsWithChildren {
   href: string;
+  className?: string;
+  extend?: boolean;
+  target?: string;
 }
 
-export default function Anchor({ href, children }: AnchorProps): JSX.Element {
+export default function Anchor({
+  href,
+  className,
+  extend,
+  target,
+  children,
+}: AnchorProps): JSX.Element {
+  const DEFAULT_CLASS_NAME =
+    "font-medium text-primary-600 hover:underline dark:text-primary-500 ";
+
   return (
     <a
       href={href}
-      className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+      target={target}
+      className={
+        className
+          ? extend
+            ? DEFAULT_CLASS_NAME + className
+            : className
+          : DEFAULT_CLASS_NAME
+      }
     >
       {children}
     </a>
