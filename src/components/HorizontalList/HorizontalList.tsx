@@ -1,7 +1,7 @@
 import ProductCard, { ProductCardProps } from "../ProductCard/ProductCard";
 
 export interface HorizontalListProps {
-  products: ProductCardProps[];
+  products: ProductCardProps[]; // TODO: Achar uma representação melhro para product
 }
 export default function HorizontalList({
   products,
@@ -12,10 +12,6 @@ export default function HorizontalList({
         <h1>Destaques</h1>
       </header>
       <main className="grid grid-cols-4 gap-4">
-        {/* <ProductCard productImage="/" productName="Produto 1" />
-        <ProductCard productImage="/" productName="Produto 2" />
-        <ProductCard productImage="/" productName="Produto 3" />
-        <ProductCard productImage="/" productName="Produto 4" /> */}
         {products.map((item) => {
           return (
             <ProductCard
