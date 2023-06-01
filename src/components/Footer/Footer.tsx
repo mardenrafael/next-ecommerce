@@ -5,7 +5,7 @@ export default function Footer(): JSX.Element {
   return (
     <footer className="bg-white rounded-lg shadow sm:flex sm:items-center sm:justify-between p-4 sm:p-6 xl:p-8 dark:bg-gray-800">
       <p className="mb-4 text-sm text-center text-gray-500 dark:text-gray-400 sm:mb-0">
-        Clique aqui e fale com o desenvolvedor{" "}
+        Fale com o desenvolvedor{" "}
         <Anchor
           href="https://github.com/mardenrafael"
           className="hover:underline"
