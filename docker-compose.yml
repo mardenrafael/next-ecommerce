@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    container_name: ecommerce_db
+
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ecommerce
+      - POSTGRES_USER=postgres
+
+    ports:
+      - 5432:5432
+
+    volumes:
+      - dbdata:/var/lib/postgres/data
+
+volumes:
+  dbdata:
