@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider>
         <Component {...pageProps} />
       </ThemeProvider>
-      <ToastContainer theme={theme == ThemeOptions.light ? "light" : "dark"} />
+      <ToastContainer />
     </>
   );
 }
