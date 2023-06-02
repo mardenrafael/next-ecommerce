@@ -9,9 +9,7 @@ export interface AnchorProps extends PropsWithChildren {
 export default function Anchor({
   href,
   className,
-
   target,
-
   children,
 }: AnchorProps): JSX.Element {
   return (
