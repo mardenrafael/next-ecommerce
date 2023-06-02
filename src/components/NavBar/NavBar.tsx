@@ -1,11 +1,10 @@
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import Link from "next/link";
 import { useContext } from "react";
 import Anchor from "../Anchor/Anchor";
-import SearchSection from "../SearchSection/SearchSection";
 import Switch from "../Switch/Switch";
-import Link from "next/link";
 
 export default function NavBar() {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -18,6 +17,13 @@ export default function NavBar() {
   return (
     <nav className={theme == ThemeOptions.light ? "bg-white" : "bg-gray-900"}>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div>
+          <Switch
+            icon={theme == ThemeOptions.light ? faMoon : faSun}
+            initialValue={!(theme == ThemeOptions.light)}
+            onSwitch={handleThemeSwitch}
+          />
+        </div>
         <Anchor href="https://flowbite.com/" className="flex items-center">
           <Image
             src="https://flowbite.com/docs/images/logo.svg"
@@ -42,13 +48,6 @@ export default function NavBar() {
                 : "bg-gray-800 md:bg-gray-900 border-gray-700"
             }  `}
           >
-            <li>
-              <Switch
-                icon={theme == ThemeOptions.light ? faMoon : faSun}
-                initialValue={!(theme == ThemeOptions.light)}
-                onSwitch={handleThemeSwitch}
-              />
-            </li>
             <li>
               <Link
                 href={"/login"}
