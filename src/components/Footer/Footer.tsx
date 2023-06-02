@@ -1,7 +1,7 @@
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
+import { useContext } from "react";
 import Anchor from "../Anchor/Anchor";
 import FooterSvg from "../FooterSvg/FooterSvg";
-import { useContext } from "react";
 
 export default function Footer(): JSX.Element {
   const { theme } = useContext(ThemeContext);
