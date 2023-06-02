@@ -1,9 +1,11 @@
+import { ThemeContext, ThemeOptions } from "@/context/themeContext";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import { useContext } from "react";
 import Anchor from "../Anchor/Anchor";
 import SearchSection from "../SearchSection/SearchSection";
-import { useContext } from "react";
-import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import Switch from "../Switch/Switch";
+import Link from "next/link";
 
 export default function NavBar() {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -45,25 +47,22 @@ export default function NavBar() {
           >
             <li>
               <Switch
-                title={
-                  theme == ThemeOptions.light
-                    ? "Ativar dark mode"
-                    : "Ativar light mode"
-                }
+                icon={theme == ThemeOptions.light ? faMoon : faSun}
+                initialValue={!(theme == ThemeOptions.light)}
                 onSwitch={handleThemeSwitch}
               />
             </li>
             <li>
-              <Anchor
-                href={"#"}
-                className={`block py-2 pl-3 pr-4 md:p-0 bg-primary-700 rounded md:bg-transparent md:text-primary-700 ${
+              <Link
+                href={"/login"}
+                className={`block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 ${
                   theme == ThemeOptions.light
                     ? "text-gray-900"
-                    : "text-white md:text-primary-500"
+                    : "text-white md:hover:text-primary-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
                 }`}
               >
-                Inicio
-              </Anchor>
+                Entrar
+              </Link>
             </li>
             <li>
               <Anchor
@@ -74,19 +73,7 @@ export default function NavBar() {
                     : "text-white md:hover:text-primary-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
                 }`}
               >
-                Produtos
-              </Anchor>
-            </li>
-            <li>
-              <Anchor
-                href="#"
-                className={`block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 ${
-                  theme == ThemeOptions.light
-                    ? "text-gray-900"
-                    : "text-white md:hover:text-primary-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
-                }`}
-              >
-                Contato
+                Cadastre-se
               </Anchor>
             </li>
           </ul>
