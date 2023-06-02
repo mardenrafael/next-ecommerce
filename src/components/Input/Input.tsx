@@ -1,5 +1,5 @@
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
-import { HTMLInputTypeAttribute, useContext } from "react";
+import { ChangeEvent, HTMLInputTypeAttribute, useContext } from "react";
 
 export interface InputProps {
   placeholder?: string;
@@ -8,6 +8,7 @@ export interface InputProps {
   type: HTMLInputTypeAttribute;
   name?: string;
   className?: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input({
@@ -17,6 +18,7 @@ export default function Input({
   type,
   name,
   className,
+  onChange,
 }: InputProps) {
   const { theme } = useContext(ThemeContext);
 
@@ -36,6 +38,7 @@ export default function Input({
       }
       placeholder={placeholder}
       required={required}
+      onChange={onChange}
     />
   );
 }
