@@ -2,6 +2,7 @@ import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import { Product } from "@prisma/client";
 import { useContext } from "react";
 import ProductCard from "../ProductCard/ProductCard";
+import SearchSection from "../SearchSection/SearchSection";
 
 export interface HorizontalListProps {
   products: Product[];
@@ -12,12 +13,14 @@ export default function HorizontalList({
   const { theme } = useContext(ThemeContext);
 
   function renderCards(): JSX.Element[] {
-    return [
-      <ProductCard
-        productName={products[0].name}
-        productImageUrl={products[0].image}
-      />,
-    ];
+    return products.map((product) => {
+      return (
+        <ProductCard
+          productName={product.name}
+          productImageUrl={product.image}
+        />
+      );
+    });
   }
 
   return (
@@ -29,6 +32,11 @@ export default function HorizontalList({
       >
         <h1>Destaques</h1>
       </header>
+      <section>
+        <div>
+          <SearchSection />
+        </div>
+      </section>
       <main className="grid grid-cols-4 gap-4">{renderCards()}</main>
     </section>
   );
