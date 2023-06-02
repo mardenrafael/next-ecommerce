@@ -3,7 +3,7 @@ import Brand from "@/components/Brand/Brand";
 import Footer from "@/components/Footer/Footer";
 import Input from "@/components/Input/Input";
 import Label from "@/components/Label/Label";
-import SectionContainer from "@/components/SectionContainer/SectionContainer";
+import Container from "@/components/Container/Container";
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import { GetServerSidePropsResult } from "next";
 import Link from "next/link";
@@ -33,7 +33,7 @@ export default function Login({
   const { theme } = useContext(ThemeContext);
 
   return (
-    <SectionContainer>
+    <Container>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <Brand brandName={brandName} logoImageURL={logoImageURL} />
         <div
@@ -58,7 +58,8 @@ export default function Login({
                   id="email"
                   name="email"
                   placeholder="seuemail@gmail.com"
-                  required={true}
+                  onChange={() => {}}
+                  required
                 />
               </div>
               <div>
@@ -66,15 +67,21 @@ export default function Login({
                 <Input
                   name="password"
                   id="password"
-                  required={true}
                   placeholder="••••••••"
                   type="password"
+                  onChange={() => {}}
+                  required
                 />
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
-                    <Input required={true} type={"checkbox"} id="remember" />
+                    <Input
+                      type="checkbox"
+                      id="remember"
+                      onChange={() => {}}
+                      required
+                    />
                   </div>
                   <div className="ml-3 text-sm">
                     <Label htmlFor="remember">Lembrar de mim?</Label>
@@ -114,6 +121,6 @@ export default function Login({
         </div>
       </div>
       <Footer />
-    </SectionContainer>
+    </Container>
   );
 }

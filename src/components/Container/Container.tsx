@@ -1,11 +1,9 @@
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import { PropsWithChildren, useContext } from "react";
 
-export interface SectionContainerProps extends PropsWithChildren {}
+export interface ContainerProps extends PropsWithChildren {}
 
-export default function SectionContainer({
-  children,
-}: SectionContainerProps): JSX.Element {
+export default function Container({ children }: ContainerProps): JSX.Element {
   const { theme } = useContext(ThemeContext);
 
   return (
