@@ -1,14 +1,27 @@
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
-import { useContext, useState } from "react";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext, useEffect, useState } from "react";
 
 export interface SwitchProps {
   title?: string;
+  icon?: IconProp;
+  initialValue?: boolean;
   onSwitch?: () => void;
 }
 
-export default function Switch({ title, onSwitch }: SwitchProps): JSX.Element {
-  const [enabled, setEnabled] = useState<boolean>(false);
+export default function Switch({
+  title,
+  icon,
+  initialValue,
+  onSwitch,
+}: SwitchProps): JSX.Element {
+  const [enabled, setEnabled] = useState<boolean | undefined>(false);
   const { theme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    setEnabled(initialValue);
+  }, []);
 
   return (
     <div
@@ -16,6 +29,7 @@ export default function Switch({ title, onSwitch }: SwitchProps): JSX.Element {
         theme == ThemeOptions.light ? "text-gray-900" : "text-white"
       }`}
     >
+      {icon ? <FontAwesomeIcon icon={icon} className="mr-2" /> : ""}
       {title}
       <div
         className={`${
