@@ -1,13 +1,17 @@
 import Anchor from "@/components/Anchor/Anchor";
+import Brand from "@/components/Brand/Brand";
 import Footer from "@/components/Footer/Footer";
 import Input from "@/components/Input/Input";
 import Label from "@/components/Label/Label";
+import SectionContainer from "@/components/SectionContainer/SectionContainer";
+import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import { GetServerSidePropsResult } from "next";
-import Image from "next/image";
+import Link from "next/link";
+import { useContext } from "react";
 
 export interface LoginProps {
-  eCommerceName: string;
-  logoImage: string;
+  brandName: string;
+  logoImageURL: string;
 }
 
 export async function getServerSideProps(): Promise<
@@ -15,36 +19,35 @@ export async function getServerSideProps(): Promise<
 > {
   return {
     props: {
-      eCommerceName: "E commerce",
-      logoImage:
+      brandName: "E commerce",
+      logoImageURL:
         "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg",
     },
   };
 }
 
 export default function Login({
-  eCommerceName,
-  logoImage,
+  brandName,
+  logoImageURL,
 }: LoginProps): JSX.Element {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <SectionContainer>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <Anchor
-          href="#"
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+        <Brand brandName={brandName} logoImageURL={logoImageURL} />
+        <div
+          className={`w-full rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ${
+            theme == ThemeOptions.light
+              ? "bg-white"
+              : "border bg-gray-800 border-gray-700"
+          }`}
         >
-          <Image
-            className="mr-2"
-            src={logoImage}
-            alt="logo"
-            width={32}
-            height={32}
-          />
-          {eCommerceName}
-        </Anchor>
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <h1
+              className={`text-xl font-bold leading-tight tracking-tight md:text-2xl
+              ${theme == ThemeOptions.light ? "text-gray-900" : "text-white"}`}
+            >
               Entre na sua conta
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
@@ -74,28 +77,43 @@ export default function Login({
                     <Input required={true} type={"checkbox"} id="remember" />
                   </div>
                   <div className="ml-3 text-sm">
-                    <Label htmlFor="remeber">Lembrar de mim?</Label>
+                    <Label htmlFor="remember">Lembrar de mim?</Label>
                   </div>
                 </div>
-                <Anchor href="#" className="text-sm" extend={true}>
-                  Esqueceu a senha?
-                </Anchor>
+                <Anchor href="#">Esqueceu a senha?</Anchor>
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className={`w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center
+                ${
+                  theme == ThemeOptions.light
+                    ? "focus:ring-primary-300"
+                    : "focus:ring-primary-800"
+                }`}
               >
                 Entrar
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              <p
+                className={`text-sm font-light
+                ${
+                  theme == ThemeOptions.light
+                    ? "text-gray-500"
+                    : "text-gray-400"
+                }`}
+              >
                 Não tem uma conta ainda?{" "}
-                <Anchor href="#">Crie uma agora</Anchor>
+                <Link
+                  href="/register"
+                  className="font-medium text-primary-600 hover:underline"
+                >
+                  Crie uma agora
+                </Link>
               </p>
             </form>
           </div>
         </div>
       </div>
       <Footer />
-    </section>
+    </SectionContainer>
   );
 }

@@ -1,29 +1,54 @@
 import Anchor from "@/components/Anchor/Anchor";
+import Brand from "@/components/Brand/Brand";
 import Footer from "@/components/Footer/Footer";
 import Input from "@/components/Input/Input";
 import Label from "@/components/Label/Label";
-import Image from "next/image";
+import SectionContainer from "@/components/SectionContainer/SectionContainer";
+import { ThemeContext, ThemeOptions } from "@/context/themeContext";
+import { GetServerSidePropsResult } from "next";
+import Link from "next/link";
+import { useContext } from "react";
 
-export default function Register(): JSX.Element {
+export interface RegisterProps {
+  brandName: string;
+  logoImageURL: string;
+}
+
+export async function getServerSideProps(): Promise<
+  GetServerSidePropsResult<RegisterProps>
+> {
+  return {
+    props: {
+      brandName: "E commerce",
+      logoImageURL:
+        "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg",
+    },
+  };
+}
+
+export default function Register({
+  brandName,
+  logoImageURL,
+}: RegisterProps): JSX.Element {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <SectionContainer>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <Anchor
-          href="#"
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+        <Brand logoImageURL={logoImageURL} brandName={brandName} />
+        <div
+          className={`w-full rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 
+          ${
+            theme == ThemeOptions.light
+              ? "bg-white"
+              : "border bg-gray-800 border-gray-700"
+          }`}
         >
-          <Image
-            className="w-8 h-8 mr-2"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-            alt="logo"
-            width={32}
-            height={32}
-          />
-          E commerce
-        </Anchor>
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <h1
+              className={`text-xl font-bold leading-tight tracking-tight md:text-2xl
+              ${theme == ThemeOptions.light ? "text-gray-900" : "text-white"}`}
+            >
               Crie sua conta
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
@@ -63,39 +88,57 @@ export default function Register(): JSX.Element {
                     id="terms"
                     aria-describedby="terms"
                     type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                     required
                   />
                 </div>
                 <div className="ml-3 text-sm">
                   <Label
                     htmlFor="terms"
-                    className="font-light text-gray-500 dark:text-gray-300"
+                    className={`font-light ${
+                      theme == ThemeOptions.light
+                        ? "text-gray-500"
+                        : "text-gray-400"
+                    }`}
                   >
-                    Eu aceito os{" "}
-                    <Anchor
-                      className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                      href="#"
-                    >
-                      Termos e condições
-                    </Anchor>
+                    Eu aceito os <Anchor href="#">Termos e condições</Anchor>
                   </Label>
                 </div>
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className={`w-full text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-primary-600 hover:bg-primary-700
+                ${
+                  theme == ThemeOptions.light
+                    ? "focus:ring-primary-300"
+                    : "focus:ring-primary-800"
+                }`}
               >
                 Criar conta
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Já tem uma conta? <Anchor href="#">Faça seu login aqui</Anchor>
+              <p
+                className={`text-sm font-light ${
+                  theme == ThemeOptions.light
+                    ? "text-gray-500"
+                    : "text-gray-400 "
+                }`}
+              >
+                Já tem uma conta?{" "}
+                <Link
+                  href="/login"
+                  className={`font-medium hover:underline ${
+                    theme == ThemeOptions.light
+                      ? "text-primary-600"
+                      : "text-primary-500"
+                  }`}
+                >
+                  Faça seu login aqui
+                </Link>
               </p>
             </form>
           </div>
         </div>
       </div>
       <Footer />
-    </section>
+    </SectionContainer>
   );
 }
