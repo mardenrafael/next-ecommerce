@@ -1,29 +1,27 @@
-import { PropsWithChildren } from "react";
+import { ThemeContext, ThemeOptions } from "@/context/themeContext";
+import { PropsWithChildren, useContext } from "react";
 
 export interface LabelProps extends PropsWithChildren {
   htmlFor: string;
   className?: string;
-  extend?: boolean;
 }
 
 export default function Label({
   htmlFor,
   children,
   className,
-  extend,
 }: LabelProps): JSX.Element {
-  const DEFAULT_CLASS_NAME =
-    "block mb-2 text-sm font-medium text-gray-900 dark:text-white ";
+  const { theme } = useContext(ThemeContext);
 
   return (
     <label
       htmlFor={htmlFor}
       className={
         className
-          ? extend
-            ? DEFAULT_CLASS_NAME + className
-            : className
-          : DEFAULT_CLASS_NAME
+          ? className
+          : `block mb-2 text-sm font-medium ${
+              theme == ThemeOptions.light ? "text-gray-900" : "text-white"
+            }`
       }
     >
       {children}
