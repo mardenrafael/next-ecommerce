@@ -1,10 +1,10 @@
+import Container from "@/components/Container/Container";
 import Footer from "@/components/Footer/Footer";
-import Header from "@/components/Header/Header";
 import HorizontalList, {
   HorizontalListProps,
 } from "@/components/HorizontalList/HorizontalList";
 import NavBar from "@/components/NavBar/NavBar";
-import SearchSection from "@/components/SearchSection/SearchSection";
+import { PrismaClient } from "@prisma/client";
 import { GetServerSidePropsResult } from "next";
 
 export interface HomeProps extends HorizontalListProps {}
@@ -12,26 +12,66 @@ export interface HomeProps extends HorizontalListProps {}
 export async function getServerSideProps(): Promise<
   GetServerSidePropsResult<HorizontalListProps>
 > {
-  return {
-    props: {
-      products: [
-        {
-          productName: "produto server side",
-          productImage: "/",
-        },
-      ],
-    },
-  };
+  try {
+    const prisma = new PrismaClient();
+    await prisma.$connect();
+
+    const products = await prisma.product.findMany();
+
+    console.log(products);
+
+    await prisma.$disconnect();
+
+    return {
+      props: {
+        products: [
+          {
+            id: "",
+            name: "produto server side",
+            image: "https://avatars.githubusercontent.com/u/69557606?v=4",
+          },
+          {
+            id: "",
+            name: "Produto server side 2",
+            image: "https://avatars.githubusercontent.com/u/69557606?v=4",
+          },
+          {
+            id: "",
+            name: "Produto server side 3",
+            image: "https://avatars.githubusercontent.com/u/69557606?v=4",
+          },
+          {
+            id: "",
+            name: "Produto server side 4",
+            image: "https://avatars.githubusercontent.com/u/69557606?v=4",
+          },
+          {
+            id: "",
+            name: "Produto server side 5",
+            image: "https://avatars.githubusercontent.com/u/69557606?v=4",
+          },
+        ],
+      },
+    };
+  } catch (e: unknown) {
+    return {
+      props: {
+        products: [],
+      },
+    };
+  }
 }
 
 export default function Home({ products }: HomeProps) {
   return (
-    <main className="bg-white">
-      <NavBar />
-      <Header title={"E commerce"} />
-      <SearchSection />
+    <Container>
+      <div className="p-8">
+        <NavBar />
+      </div>
+
       <HorizontalList products={products} />
+
       <Footer />
-    </main>
+    </Container>
   );
 }
