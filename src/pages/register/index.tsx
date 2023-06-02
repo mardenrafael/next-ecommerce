@@ -58,6 +58,7 @@ export default function Register({
       toast("As senhas não conferem", {
         autoClose: 2500,
         type: "error",
+        // theme: theme == ThemeOptions.light ? "light" : "dark",
       });
       return;
     }
@@ -66,6 +67,7 @@ export default function Register({
       toast("A senha tem que ter no minimo 8 caracteres", {
         autoClose: 2500,
         type: "error",
+        // theme: theme == ThemeOptions.light ? "light" : "dark",
       });
       return;
     }
