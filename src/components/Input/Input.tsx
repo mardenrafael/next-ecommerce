@@ -1,4 +1,5 @@
-import { HTMLInputTypeAttribute } from "react";
+import { ThemeContext, ThemeOptions } from "@/context/themeContext";
+import { HTMLInputTypeAttribute, useContext } from "react";
 
 export interface InputProps {
   placeholder?: string;
@@ -7,7 +8,6 @@ export interface InputProps {
   type: HTMLInputTypeAttribute;
   name?: string;
   className?: string;
-  extend?: boolean;
 }
 
 export default function Input({
@@ -17,10 +17,8 @@ export default function Input({
   type,
   name,
   className,
-  extend,
 }: InputProps) {
-  const DEFAULT_CLASS_NAME =
-    "bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 ";
+  const { theme } = useContext(ThemeContext);
 
   return (
     <input
@@ -29,10 +27,12 @@ export default function Input({
       name={name}
       className={
         className
-          ? extend
-            ? DEFAULT_CLASS_NAME + className
-            : className
-          : DEFAULT_CLASS_NAME
+          ? className
+          : `border text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 ${
+              theme == ThemeOptions.light
+                ? "bg-gray-50 border-gray-300 focus:border-primary-600 focus:ring-primary-600"
+                : "bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:border-primary-500 focus:ring-primary-500"
+            }`
       }
       placeholder={placeholder}
       required={required}

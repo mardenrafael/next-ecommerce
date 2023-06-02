@@ -1,6 +1,8 @@
 import Image from "next/image";
 import applewatch from "../../../public/img/apple-watch.png";
 import Anchor from "../Anchor/Anchor";
+import { useContext } from "react";
+import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 
 export interface ProductCardProps {
   productName: string;
@@ -11,9 +13,17 @@ export default function ProductCard({
   productName,
   productImageUrl,
 }: ProductCardProps): JSX.Element {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Anchor href="#" blankStyle>
+    <div
+      className={`w-full max-w-sm border rounded-lg shadow ${
+        theme == ThemeOptions.light
+          ? "bg-white border-gray-200"
+          : "bg-gray-800 border-gray-700"
+      }`}
+    >
+      <Anchor href="#">
         <Image
           className="p-8 rounded-t-lg"
           src={productImageUrl}
@@ -24,8 +34,12 @@ export default function ProductCard({
       </Anchor>
       <div className="px-5 pb-5 flex flex-col gap-5">
         <div className="flex items-center justify-center">
-          <Anchor href="#" blankStyle>
-            <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <Anchor href="#">
+            <h5
+              className={`text-xl font-semibold tracking-tight ${
+                theme == ThemeOptions.light ? "text-gray-900" : "text-white"
+              }`}
+            >
               {productName}
             </h5>
           </Anchor>
