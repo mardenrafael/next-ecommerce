@@ -34,9 +34,6 @@ export default function NavBar() {
             Flowbite
           </span>
         </Anchor>
-        <div>
-          <SearchSection />
-        </div>
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul
             className={`font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 border ${
@@ -65,8 +62,8 @@ export default function NavBar() {
               </Link>
             </li>
             <li>
-              <Anchor
-                href="#"
+              <Link
+                href="/register"
                 className={`block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 ${
                   theme == ThemeOptions.light
                     ? "text-gray-900"
@@ -74,7 +71,7 @@ export default function NavBar() {
                 }`}
               >
                 Cadastre-se
-              </Anchor>
+              </Link>
             </li>
           </ul>
         </div>
