@@ -1,10 +1,5 @@
 #!/bin/sh
-
-echo "#############################"
-echo "# Processo de inicialização #"
-echo "#############################"
 /usr/local/bin/docker-entrypoint.sh
-
 
 echo "#####################################################"
 echo "# Reiniciando banco de dados e aplicando migrations #"
