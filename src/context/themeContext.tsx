@@ -2,6 +2,7 @@ import {
   PropsWithChildren,
   SetStateAction,
   createContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -12,26 +13,50 @@ export enum ThemeOptions {
 
 export interface Theme {
   theme: ThemeOptions;
-  setTheme: (value: SetStateAction<ThemeOptions | undefined>) => void;
+  toggleTheme: () => void;
 }
 
 export interface ThemeProviderProps extends PropsWithChildren {}
 
 export const ThemeContext = createContext<Theme>({
   theme: ThemeOptions.light,
-  setTheme: () => {},
+  toggleTheme: () => {},
 });
 
 export default function ThemeProvider({
   children,
-}: ThemeProviderProps): JSX.Element {
-  const [theme, setTheme] = useState<ThemeOptions>();
+}: ThemeProviderProps): JSX.Element | null {
+  const [theme, setTheme] = useState<ThemeOptions>(ThemeOptions.light);
+
+  function toggleTheme(): void {
+    const newTheme =
+      theme === ThemeOptions.light ? ThemeOptions.dark : ThemeOptions.light;
+    const location = window.location;
+
+    localStorage.setItem(
+      location.hostname + ".user.preferred.theme",
+      JSON.stringify({ theme: newTheme })
+    );
+    setTheme(newTheme);
+  }
+
+  useEffect(() => {
+    const location = window.location;
+
+    const userPreferredTheme = localStorage.getItem(
+      location.hostname + ".user.preferred.theme"
+    );
+
+    if (userPreferredTheme) {
+      setTheme(JSON.parse(userPreferredTheme).theme);
+    }
+  }, []);
 
   return (
     <ThemeContext.Provider
       value={{
-        theme: theme ?? ThemeOptions.light,
-        setTheme,
+        theme,
+        toggleTheme,
       }}
     >
       {children}
