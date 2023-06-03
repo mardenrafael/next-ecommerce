@@ -1,17 +1,11 @@
-import ThemeProvider, {
-  ThemeContext,
-  ThemeOptions,
-} from "@/context/themeContext";
+import ThemeProvider from "@/context/themeContext";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { useContext } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { theme } = useContext(ThemeContext);
-
   return (
     <>
       <Head>
