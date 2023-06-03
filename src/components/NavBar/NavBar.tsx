@@ -7,21 +7,16 @@ import Anchor from "../Anchor/Anchor";
 import Switch from "../Switch/Switch";
 
 export default function NavBar() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
-  function handleThemeSwitch(): void {
-    theme == ThemeOptions.light
-      ? setTheme(ThemeOptions.dark)
-      : setTheme(ThemeOptions.light);
-  }
   return (
     <nav className={theme == ThemeOptions.light ? "bg-white" : "bg-gray-900"}>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div>
           <Switch
             icon={theme == ThemeOptions.light ? faMoon : faSun}
-            initialValue={!(theme == ThemeOptions.light)}
-            onSwitch={handleThemeSwitch}
+            initialValue={theme == ThemeOptions.light}
+            onSwitch={toggleTheme}
           />
         </div>
         <Anchor href="https://flowbite.com/" className="flex items-center">
