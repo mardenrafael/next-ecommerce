@@ -1,9 +1,23 @@
 version: "3"
 
 services:
+  web:
+    build: .
+    container_name: web-app
+
+    ports:
+      - 3000:3000
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    networks:
+      - appnet
+
   postgres:
     image: postgres
-    container_name: ecommerce_db
+    container_name: ecommerce-db
 
     environment:
       - POSTGRES_PASSWORD=postgres
@@ -13,8 +27,21 @@ services:
     ports:
       - 5432:5432
 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
     volumes:
       - dbdata:/var/lib/postgres/data
 
+    networks:
+      - appnet
+
 volumes:
   dbdata:
+
+networks:
+  appnet:
+    name: appnet
