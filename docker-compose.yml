@@ -12,6 +12,9 @@ services:
       postgres:
         condition: service_healthy
 
+    volumes:
+      - ./:/opt/web/app:rw
+
     networks:
       - appnet
 
