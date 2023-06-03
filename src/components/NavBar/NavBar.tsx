@@ -15,7 +15,7 @@ export default function NavBar() {
         <div>
           <Switch
             icon={theme == ThemeOptions.light ? faMoon : faSun}
-            initialValue={theme == ThemeOptions.light}
+            initialValue={!(theme == ThemeOptions.light)}
             onSwitch={toggleTheme}
           />
         </div>

@@ -7,6 +7,7 @@ export interface SwitchProps {
   title?: string;
   icon?: IconProp;
   initialValue?: boolean;
+  leftSideIcon?: boolean;
   onSwitch?: () => void;
 }
 
@@ -14,6 +15,7 @@ export default function Switch({
   title,
   icon,
   initialValue,
+  leftSideIcon,
   onSwitch,
 }: SwitchProps): JSX.Element {
   const [enabled, setEnabled] = useState<boolean | undefined>(false);
@@ -29,12 +31,16 @@ export default function Switch({
         theme == ThemeOptions.light ? "text-gray-900" : "text-white"
       }`}
     >
-      {icon ? <FontAwesomeIcon icon={icon} className="mr-2" /> : ""}
+      {icon && leftSideIcon ? (
+        <FontAwesomeIcon icon={icon} className="mr-2" />
+      ) : (
+        ""
+      )}
       {title}
       <div
         className={`${
           enabled ? "bg-primary-600" : "bg-gray-200"
-        } relative inline-flex h-6 w-11 items-center rounded-full hover:cursor-pointer ml-2`}
+        } relative inline-flex h-6 w-11 items-center rounded-full hover:cursor-pointer mx-2`}
         onClick={() => {
           setEnabled(!enabled);
           onSwitch != undefined && onSwitch();
@@ -46,6 +52,11 @@ export default function Switch({
           } inline-block h-4 w-4 transform rounded-full bg-white transition`}
         ></span>
       </div>
+      {icon && !leftSideIcon ? (
+        <FontAwesomeIcon icon={icon} className="ml-2" />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
