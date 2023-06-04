@@ -1,8 +1,16 @@
-import PrismaConnector from "@/database/connection/Prisma";
+import PrismaConnector from "@/database/connection/PrismaConnector";
 
-export default interface Dao<E> {
-  connector: PrismaConnector;
+export default abstract class Dao<E> {
+  private connector: PrismaConnector;
 
-  create(entity: E): Promise<E>;
-  getById(id: string): Promise<E>;
+  constructor() {
+    this.connector = PrismaConnector.getConnector();
+  }
+
+  protected getConnector(): PrismaConnector {
+    return this.connector;
+  }
+
+  public abstract create(entity: E): Promise<E>;
+  public abstract getById(id: string): Promise<E>;
 }
