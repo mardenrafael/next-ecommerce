@@ -1,21 +1,20 @@
-import PrismaConnector from "@/database/connection/Prisma";
 import NotFoundError from "@/errors/NotFoundError";
-import { User } from "@prisma/client";
+
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
+import { randomUUID } from "crypto";
 import Dao from "../Dao";
+import { User } from "@prisma/client";
 
-export default class UserDao implements Dao<User> {
-  public connector: PrismaConnector;
-
+export default class UserDao extends Dao<User> {
   constructor() {
-    this.connector = PrismaConnector.getConnector();
+    super();
   }
 
   public async create({ email, name, password, terms }: User): Promise<User> {
     try {
-      const prisma = this.connector.getPrismaclientInstance();
+      const connector = super.getConnector();
+      const prisma = connector.getPrismaclientInstance();
 
       const uuid = randomUUID();
       const cryptPassword = await bcrypt.hash(password, 12);
@@ -46,7 +45,8 @@ export default class UserDao implements Dao<User> {
 
   public async getById(id: string): Promise<User> {
     try {
-      const prisma = this.connector.getPrismaclientInstance();
+      const connector = super.getConnector();
+      const prisma = connector.getPrismaclientInstance();
 
       const [user] = await prisma.$transaction([
         prisma.user.findUniqueOrThrow({
