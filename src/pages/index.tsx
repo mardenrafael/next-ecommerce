@@ -4,24 +4,14 @@ import HorizontalList, {
   HorizontalListProps,
 } from "@/components/HorizontalList/HorizontalList";
 import NavBar from "@/components/NavBar/NavBar";
-import { PrismaClient } from "@prisma/client";
 import { GetServerSidePropsResult } from "next";
 
 export interface HomeProps extends HorizontalListProps {}
 
 export async function getServerSideProps(): Promise<
-  GetServerSidePropsResult<HorizontalListProps>
+  GetServerSidePropsResult<HomeProps>
 > {
   try {
-    const prisma = new PrismaClient();
-    await prisma.$connect();
-
-    const products = await prisma.product.findMany();
-
-    console.log(products);
-
-    await prisma.$disconnect();
-
     return {
       props: {
         products: [
@@ -47,7 +37,7 @@ export async function getServerSideProps(): Promise<
           },
           {
             id: "",
-            name: "Produto server side 5",
+            name: "Produto server side",
             image: "https://avatars.githubusercontent.com/u/69557606?v=4",
           },
         ],
