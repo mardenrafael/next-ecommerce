@@ -1,4 +1,4 @@
-import Response from "@/commons/Response";
+import Response from "@/http/Response";
 import UserDao from "@/dao/UserDao/UserDao";
 import InternalServerError from "@/errors/InternalServerError";
 import MethodNotAllowedError from "@/errors/MethodNotAllowedError";
