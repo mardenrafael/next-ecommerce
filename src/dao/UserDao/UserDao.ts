@@ -1,10 +1,10 @@
 import NotFoundError from "@/errors/NotFoundError";
 
+import { Prisma, User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
 import Dao from "../Dao";
-import { User } from "@prisma/client";
 
 export default class UserDao extends Dao<User> {
   constructor() {
@@ -63,6 +63,30 @@ export default class UserDao extends Dao<User> {
           throw new NotFoundError();
         }
       }
+      throw error;
+    }
+  }
+  public async getBy(
+    atribute: keyof User,
+    value: string | boolean
+  ): Promise<User> {
+    try {
+      const connector = super.getConnector();
+      const prisma = connector.getPrismaclientInstance();
+
+      const user = await prisma.$queryRaw<User>`
+          SELECT * FROM users
+            WHERE 1 = 1
+            AND email = ${value};`;
+
+      console.log(user);
+
+      return user as User;
+    } catch (error: unknown) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        throw new Error("Data base error");
+      }
+
       throw error;
     }
   }
