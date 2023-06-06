@@ -1,10 +1,11 @@
 import NotFoundError from "@/errors/NotFoundError";
 
-import { Prisma, User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import bcrypt from "bcryptjs";
-import { randomUUID } from "crypto";
 import Dao from "../Dao";
+import { User } from "@/database/model/User";
+import { randomUUID } from "crypto";
+import { AppDataSource } from "@/database/data-source";
+import { Equal } from "typeorm";
 
 export default class UserDao extends Dao<User> {
   constructor() {
@@ -12,26 +13,21 @@ export default class UserDao extends Dao<User> {
   }
 
   public async create({ email, name, password, terms }: User): Promise<User> {
+    const a = await AppDataSource.initialize();
     try {
-      const connector = super.getConnector();
-      const prisma = connector.getPrismaclientInstance();
-
       const uuid = randomUUID();
-      const cryptPassword = await bcrypt.hash(password, 12);
+      const userRepository = AppDataSource.getRepository(User);
 
-      const [user] = await prisma.$transaction([
-        prisma.user.create({
-          data: {
-            id: uuid,
-            name,
-            email,
-            password: cryptPassword,
-            terms,
-          },
-        }),
-      ]);
+      const user: User = new User();
+      user.id = uuid;
+      user.email = email;
+      user.name = name;
+      user.password = password;
+      user.terms = terms;
 
-      return user;
+      const savedUser = await userRepository.save(user);
+
+      return savedUser;
     } catch (error: unknown) {
       console.error(error);
 
@@ -40,28 +36,25 @@ export default class UserDao extends Dao<User> {
       }
 
       throw error;
+    } finally {
+      await a.destroy();
     }
   }
 
-  public async getById(id: string): Promise<User> {
+  public async getById(id: String): Promise<User> {
     try {
-      const connector = super.getConnector();
-      const prisma = connector.getPrismaclientInstance();
+      const userRepository = AppDataSource.getRepository(User);
+      const user = await userRepository.findOneBy({
+        id: Equal(id),
+      });
 
-      const [user] = await prisma.$transaction([
-        prisma.user.findUniqueOrThrow({
-          where: {
-            id,
-          },
-        }),
-      ]);
-
+      if (user == null) {
+        throw new NotFoundError();
+      }
       return user;
     } catch (error: unknown) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code == "P2025") {
-          throw new NotFoundError();
-        }
+      if (error instanceof NotFoundError) {
+        throw new Error("Usuario não encontrado");
       }
       throw error;
     }
