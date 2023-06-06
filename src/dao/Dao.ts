@@ -13,4 +13,5 @@ export default abstract class Dao<E> {
 
   public abstract create(entity: E): Promise<E>;
   public abstract getById(id: string): Promise<E>;
+  public abstract getBy(atribute: keyof E, value: E[keyof E]): Promise<E>;
 }
