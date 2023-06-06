@@ -27,6 +27,11 @@ export default async function handler(
     const user: User = await userDao.getBy("email", body.email);
 
     console.log(user);
+    res.status(200);
+    res.json({
+      message: "Ok",
+      data: [user],
+    });
   } catch (error: unknown) {
     console.log(error);
   }
