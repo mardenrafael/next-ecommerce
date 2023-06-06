@@ -4,7 +4,6 @@
 echo "#####################################################"
 echo "# Reiniciando banco de dados e aplicando migrations #"
 echo "#####################################################"
-npx prisma migrate reset -f
 
 
 echo "#######################"
