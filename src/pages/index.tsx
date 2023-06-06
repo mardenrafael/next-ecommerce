@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import Container from "@/components/Container/Container";
 import Footer from "@/components/Footer/Footer";
 import HorizontalList, {
@@ -5,6 +6,7 @@ import HorizontalList, {
 } from "@/components/HorizontalList/HorizontalList";
 import NavBar from "@/components/NavBar/NavBar";
 import { GetServerSidePropsResult } from "next";
+import { useEffect } from "react";
 
 export interface HomeProps extends HorizontalListProps {}
 
