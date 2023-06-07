@@ -1,8 +1,12 @@
-import Response from "@/http/Response";
 import UserDao from "@/dao/UserDao/UserDao";
 import MethodNotAllowedError from "@/errors/MethodNotAllowedError";
-import { User } from "@prisma/client";
+import Response from "@/http/Response";
+
+import { User } from "@/database/model/User";
 import { NextApiRequest, NextApiResponse } from "next";
+import { compare } from "bcryptjs";
+import InternalServerError from "@/errors/InternalServerError";
+import UnathorizedError from "@/errors/UnauthorizedError";
 
 export interface LoginResponse extends Response {}
 
@@ -22,17 +26,34 @@ export default async function handler(
       return;
     }
 
-    const body = req.body;
+    const { email, password } = req.body;
     const userDao: UserDao = new UserDao();
-    const user: User = await userDao.getBy("email", body.email);
+    const userList: User[] = await userDao.getBy("email", email, undefined, {
+      password: true,
+    });
 
-    console.log(user);
+    if (userList.length > 1) {
+      throw new InternalServerError();
+    }
+
+    const user = userList[0];
+
+    const result = await compare(password, user.password);
+
+    if (result == false) {
+      throw new UnathorizedError();
+    }
+
     res.status(200);
     res.json({
-      message: "Ok",
+      message: "Operação realizado com sucesso",
       data: [user],
     });
   } catch (error: unknown) {
     console.log(error);
+    res.status(401);
+    res.json({
+      error: new UnathorizedError(),
+    });
   }
 }
