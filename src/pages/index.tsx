@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import Container from "@/components/Container/Container";
 import Footer from "@/components/Footer/Footer";
 import HorizontalList, {
@@ -6,9 +5,23 @@ import HorizontalList, {
 } from "@/components/HorizontalList/HorizontalList";
 import NavBar from "@/components/NavBar/NavBar";
 import { GetServerSidePropsResult } from "next";
-import { useEffect } from "react";
+import "reflect-metadata";
 
 export interface HomeProps extends HorizontalListProps {}
+
+export default function Home({ products }: HomeProps) {
+  return (
+    <Container>
+      <div className="p-8">
+        <NavBar />
+      </div>
+
+      <HorizontalList products={products} />
+
+      <Footer />
+    </Container>
+  );
+}
 
 export async function getServerSideProps(): Promise<
   GetServerSidePropsResult<HomeProps>
@@ -52,18 +65,4 @@ export async function getServerSideProps(): Promise<
       },
     };
   }
-}
-
-export default function Home({ products }: HomeProps) {
-  return (
-    <Container>
-      <div className="p-8">
-        <NavBar />
-      </div>
-
-      <HorizontalList products={products} />
-
-      <Footer />
-    </Container>
-  );
 }
