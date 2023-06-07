@@ -7,23 +7,18 @@ import Container from "@/components/Container/Container";
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import { GetServerSidePropsResult } from "next";
 import Link from "next/link";
-import { useContext } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 export interface LoginProps {
   brandName: string;
   logoImageURL: string;
 }
 
-export async function getServerSideProps(): Promise<
-  GetServerSidePropsResult<LoginProps>
-> {
-  return {
-    props: {
-      brandName: "E commerce",
-      logoImageURL:
-        "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg",
-    },
-  };
+export interface LoginFormFields {
+  email: string;
+  password: string;
 }
 
 export default function Login({
@@ -31,6 +26,57 @@ export default function Login({
   logoImageURL,
 }: LoginProps): JSX.Element {
   const { theme } = useContext(ThemeContext);
+  const { push } = useRouter();
+  const [formFields, setFormFields] = useState<LoginFormFields>({
+    email: "",
+    password: "",
+  });
+
+  function handleInput(e: ChangeEvent<HTMLInputElement>): void {
+    setFormFields((prevState) => {
+      return {
+        ...prevState,
+        [e.target.name]: e.target.value,
+      };
+    });
+  }
+
+  async function handleFormSubmit(
+    e: FormEvent<HTMLFormElement>
+  ): Promise<void> {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          email: formFields.email,
+          password: formFields.password,
+        }),
+      });
+      const json = await response.json();
+
+      if (response.status != 200) {
+        throw new Error();
+      }
+
+      toast(json.message, {
+        type: "success",
+        theme: theme == ThemeOptions.light ? "light" : "dark",
+        autoClose: 2500,
+      });
+      push("/");
+    } catch (error: unknown) {
+      toast("Ops, algo de errado aconteceu :(", {
+        type: "error",
+        theme: theme == ThemeOptions.light ? "light" : "dark",
+        autoClose: 2500,
+      });
+    }
+  }
 
   return (
     <Container>
@@ -50,7 +96,10 @@ export default function Login({
             >
               Entre na sua conta
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form
+              className="space-y-4 md:space-y-6"
+              onSubmit={handleFormSubmit}
+            >
               <div>
                 <Label htmlFor={"email"}>Seu email</Label>
                 <Input
@@ -58,7 +107,7 @@ export default function Login({
                   id="email"
                   name="email"
                   placeholder="seuemail@gmail.com"
-                  onChange={() => {}}
+                  onChange={handleInput}
                   required
                 />
               </div>
@@ -69,7 +118,7 @@ export default function Login({
                   id="password"
                   placeholder="••••••••"
                   type="password"
-                  onChange={() => {}}
+                  onChange={handleInput}
                   required
                 />
               </div>
@@ -123,4 +172,16 @@ export default function Login({
       <Footer />
     </Container>
   );
+}
+
+export async function getServerSideProps(): Promise<
+  GetServerSidePropsResult<LoginProps>
+> {
+  return {
+    props: {
+      brandName: "E commerce",
+      logoImageURL:
+        "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg",
+    },
+  };
 }

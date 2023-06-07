@@ -1,7 +1,8 @@
-import Response from "@/http/Response";
 import UserDao from "@/dao/UserDao/UserDao";
+import { User } from "@/database/model/User";
 import InternalServerError from "@/errors/InternalServerError";
 import MethodNotAllowedError from "@/errors/MethodNotAllowedError";
+import Response from "@/http/Response";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export interface RegisterResponse extends Response {}
@@ -21,10 +22,15 @@ export default async function handler(
       return;
     }
 
-    const body = req.body;
+    const { name, email, password, terms }: User = req.body;
     const userDao: UserDao = new UserDao();
 
-    const user = await userDao.create(body);
+    const user = await userDao.create({
+      name,
+      email,
+      password,
+      terms,
+    });
 
     res.status(200);
     res.json({

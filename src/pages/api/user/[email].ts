@@ -18,25 +18,25 @@ export default async function handler(
     return;
   }
 
-  const { id } = req.query;
+  const { email } = req.query;
 
-  if (id == undefined) {
+  if (email == undefined) {
     throw new BadRequestError();
   }
 
-  if (id instanceof Array) {
+  if (email instanceof Array) {
     throw new BadRequestError();
   }
 
   const userDao: UserDao = new UserDao();
 
   try {
-    const user = await userDao.getById(id);
+    const user = await userDao.getBy("email", email);
 
     res.status(200);
     res.json({
       message: "Operação realizado com sucesso",
-      data: user,
+      data: [user],
     });
   } catch (e: unknown) {
     console.log(e);

@@ -1,93 +1,120 @@
+import { User } from "@/database/model/User";
 import NotFoundError from "@/errors/NotFoundError";
-
-import { Prisma, User } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
 import Dao from "../Dao";
+import {
+  Equal,
+  FindManyOptions,
+  FindOptionsRelations,
+  FindOptionsSelect,
+} from "typeorm";
+import { genSalt, hash } from "bcryptjs";
 
 export default class UserDao extends Dao<User> {
   constructor() {
     super();
   }
 
-  public async create({ email, name, password, terms }: User): Promise<User> {
+  public async create({
+    email,
+    name,
+    password,
+    terms,
+  }: Omit<User, "id">): Promise<User> {
+    const connector = super.getConnector();
+
     try {
-      const connector = super.getConnector();
-      const prisma = connector.getPrismaclientInstance();
+      await connector.establish();
+
+      const appDataSource = connector.getDataSource();
+      const userRepository = appDataSource.getRepository(User);
 
       const uuid = randomUUID();
-      const cryptPassword = await bcrypt.hash(password, 12);
 
-      const [user] = await prisma.$transaction([
-        prisma.user.create({
-          data: {
-            id: uuid,
-            name,
-            email,
-            password: cryptPassword,
-            terms,
-          },
-        }),
-      ]);
+      const salt = await genSalt(12);
+      const hashedPassword = await hash(password, salt);
 
-      return user;
+      const user: User = new User();
+      user.id = uuid;
+      user.email = email;
+      user.name = name;
+      user.password = hashedPassword;
+      user.terms = terms;
+
+      const savedUser = await userRepository.save(user);
+
+      return savedUser;
     } catch (error: unknown) {
       console.error(error);
 
-      if (error instanceof PrismaClientKnownRequestError) {
-        throw new Error("Database error");
-      }
-
       throw error;
+    } finally {
+      await connector.close();
     }
   }
 
   public async getById(id: string): Promise<User> {
+    const connector = super.getConnector();
+
     try {
-      const connector = super.getConnector();
-      const prisma = connector.getPrismaclientInstance();
+      await connector.establish();
 
-      const [user] = await prisma.$transaction([
-        prisma.user.findUniqueOrThrow({
-          where: {
-            id,
-          },
-        }),
-      ]);
+      const appDataSource = connector.getDataSource();
+      const userRepository = appDataSource.getRepository(User);
 
-      return user;
-    } catch (error: unknown) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code == "P2025") {
-          throw new NotFoundError();
-        }
+      const userOrNull = await userRepository.findOne({
+        where: {
+          id: Equal(id),
+        },
+      });
+
+      if (userOrNull == null) {
+        throw new NotFoundError();
       }
+
+      return userOrNull;
+    } catch (error: unknown) {
       throw error;
+    } finally {
+      await connector.close();
     }
   }
   public async getBy(
     atribute: keyof User,
-    value: string | boolean
-  ): Promise<User> {
+    value: string | boolean,
+    join?: FindOptionsRelations<User>,
+    select?: FindOptionsSelect<User>
+  ): Promise<User[]> {
+    const connector = super.getConnector();
+
     try {
-      const connector = super.getConnector();
-      const prisma = connector.getPrismaclientInstance();
+      await connector.establish();
 
-      const user = await prisma.$queryRaw<User>`
-          SELECT * FROM users
-            WHERE 1 = 1
-            AND email = ${value};`;
+      const appDataSource = connector.getDataSource();
+      const userRepository = appDataSource.getRepository(User);
 
-      console.log(user);
+      const findManyOptions: FindManyOptions = {
+        where: {
+          [atribute]: Equal(value),
+        },
+        select: {},
+      };
 
-      return user as User;
-    } catch (error: unknown) {
-      if (error instanceof PrismaClientKnownRequestError) {
-        throw new Error("Data base error");
+      if (join != undefined) {
+        findManyOptions.relations = join;
       }
 
+      if (select != undefined) {
+        findManyOptions.select = select;
+      }
+
+      const users = await userRepository.find(findManyOptions);
+
+      return users;
+    } catch (error: unknown) {
       throw error;
+    } finally {
+      connector.close();
     }
   }
 }
