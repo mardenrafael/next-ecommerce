@@ -1,13 +1,13 @@
-import PrismaConnector from "@/database/connection/PrismaConnector";
+import TypeORMConnector from "@/database/connection/TypeOrmConnector";
 
 export default abstract class Dao<E> {
-  private connector: PrismaConnector;
+  private connector: TypeORMConnector;
 
   constructor() {
-    this.connector = PrismaConnector.getConnector();
+    this.connector = TypeORMConnector.getInstance();
   }
 
-  protected getConnector(): PrismaConnector {
+  protected getConnector(): TypeORMConnector {
     return this.connector;
   }
 
