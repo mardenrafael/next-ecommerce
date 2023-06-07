@@ -1,12 +1,12 @@
 import UserDao from "@/dao/UserDao/UserDao";
-import MethodNotAllowedError from "@/errors/MethodNotAllowedError";
+import MethodNotAllowedError from "@/http/errors/MethodNotAllowedError";
 import Response from "@/http/Response";
 
 import { User } from "@/database/model/User";
 import { NextApiRequest, NextApiResponse } from "next";
 import { compare } from "bcryptjs";
-import InternalServerError from "@/errors/InternalServerError";
-import UnathorizedError from "@/errors/UnauthorizedError";
+import InternalServerError from "@/http/errors/InternalServerError";
+import UnathorizedError from "@/http/errors/UnauthorizedError";
 
 export interface LoginResponse extends Response {}
 

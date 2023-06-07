@@ -1,7 +1,7 @@
 import UserDao from "@/dao/UserDao/UserDao";
 import { User } from "@/database/model/User";
-import InternalServerError from "@/errors/InternalServerError";
-import MethodNotAllowedError from "@/errors/MethodNotAllowedError";
+import InternalServerError from "@/http/errors/InternalServerError";
+import MethodNotAllowedError from "@/http/errors/MethodNotAllowedError";
 import Response from "@/http/Response";
 import { NextApiRequest, NextApiResponse } from "next";
 

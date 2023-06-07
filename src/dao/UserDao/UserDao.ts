@@ -1,5 +1,5 @@
 import { User } from "@/database/model/User";
-import NotFoundError from "@/errors/NotFoundError";
+import NotFoundError from "@/http/errors/NotFoundError";
 import { randomUUID } from "crypto";
 import Dao from "../Dao";
 import {

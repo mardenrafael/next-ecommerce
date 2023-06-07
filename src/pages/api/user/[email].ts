@@ -1,7 +1,7 @@
 import UserDao from "@/dao/UserDao/UserDao";
-import BadRequestError from "@/errors/BadRequestError";
-import InternalServerError from "@/errors/InternalServerError";
-import MethodNotAllowedError from "@/errors/MethodNotAllowedError";
+import BadRequestError from "@/http/errors/BadRequestError";
+import InternalServerError from "@/http/errors/InternalServerError";
+import MethodNotAllowedError from "@/http/errors/MethodNotAllowedError";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
