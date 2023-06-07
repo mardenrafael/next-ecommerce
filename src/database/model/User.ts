@@ -1,32 +1,34 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
-@Entity()
+@Entity({
+  name: "users",
+})
 export class User {
   @PrimaryColumn("uuid")
-  public id!: String;
+  public id!: string;
 
   @Column("varchar", {
     length: 100,
     nullable: false,
   })
-  public name!: String;
+  public name!: string;
 
   @Column("varchar", {
     unique: true,
     nullable: false,
     length: 100,
   })
-  public email!: String;
+  public email!: string;
 
   @Column("varchar", {
     nullable: false,
-    length: 20,
+    length: 255,
     select: false,
   })
-  public password!: String;
+  public password!: string;
 
   @Column("boolean", {
     nullable: false,
   })
-  public terms!: Boolean;
+  public terms!: boolean;
 }
