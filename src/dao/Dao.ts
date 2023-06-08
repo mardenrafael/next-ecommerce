@@ -1,18 +1,13 @@
-import TypeORMConnector from "@/database/connector/TypeOrmConnector";
-import {
-  FindOptionsRelations,
-  FindOptionsSelect,
-  ObjectLiteral,
-} from "typeorm";
+import PrismaConnector from "@/database/connector/PrismaConnector";
 
-export default abstract class Dao<E extends ObjectLiteral> {
-  private connector?: TypeORMConnector;
+export default abstract class Dao<E> {
+  private connector?: PrismaConnector;
 
   constructor() {}
 
-  protected async getConnector(): Promise<TypeORMConnector> {
+  protected getConnector(): PrismaConnector {
     if (this.connector == undefined) {
-      this.connector = await TypeORMConnector.getInstance();
+      this.connector = PrismaConnector.getInstance();
     }
 
     return this.connector;
@@ -20,10 +15,4 @@ export default abstract class Dao<E extends ObjectLiteral> {
 
   public abstract create(entity: E): Promise<E>;
   public abstract getById(id: string): Promise<E>;
-  public abstract getBy(
-    atribute: keyof E,
-    value: E[keyof E],
-    join?: FindOptionsRelations<E>,
-    select?: FindOptionsSelect<E>
-  ): Promise<E[] | E>;
 }
