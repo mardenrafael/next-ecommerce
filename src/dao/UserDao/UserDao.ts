@@ -21,7 +21,7 @@ export default class UserDao extends Dao<User> {
     password,
     terms,
   }: Omit<User, "id">): Promise<User> {
-    const connector = super.getConnector();
+    const connector = await super.getConnector();
 
     try {
       await connector.establish();
@@ -54,7 +54,7 @@ export default class UserDao extends Dao<User> {
   }
 
   public async getById(id: string): Promise<User> {
-    const connector = super.getConnector();
+    const connector = await super.getConnector();
 
     try {
       await connector.establish();
@@ -85,7 +85,7 @@ export default class UserDao extends Dao<User> {
     join?: FindOptionsRelations<User>,
     select?: FindOptionsSelect<User>
   ): Promise<User[]> {
-    const connector = super.getConnector();
+    const connector = await super.getConnector();
 
     try {
       await connector.establish();

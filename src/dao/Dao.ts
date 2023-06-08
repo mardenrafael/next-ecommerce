@@ -1,4 +1,4 @@
-import TypeORMConnector from "@/database/connection/TypeOrmConnector";
+import TypeORMConnector from "@/database/connector/TypeOrmConnector";
 import {
   FindOptionsRelations,
   FindOptionsSelect,
@@ -6,13 +6,15 @@ import {
 } from "typeorm";
 
 export default abstract class Dao<E extends ObjectLiteral> {
-  private connector: TypeORMConnector;
+  private connector?: TypeORMConnector;
 
-  constructor() {
-    this.connector = TypeORMConnector.getInstance();
-  }
+  constructor() {}
 
-  protected getConnector(): TypeORMConnector {
+  protected async getConnector(): Promise<TypeORMConnector> {
+    if (this.connector == undefined) {
+      this.connector = await TypeORMConnector.getInstance();
+    }
+
     return this.connector;
   }
 
