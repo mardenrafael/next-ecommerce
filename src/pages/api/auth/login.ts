@@ -2,11 +2,11 @@ import UserDao from "@/dao/UserDao/UserDao";
 import MethodNotAllowedError from "@/http/errors/MethodNotAllowedError";
 import Response from "@/http/Response";
 
-import { User } from "@/database/model/User";
 import { NextApiRequest, NextApiResponse } from "next";
 import { compare } from "bcryptjs";
 import InternalServerError from "@/http/errors/InternalServerError";
 import UnathorizedError from "@/http/errors/UnauthorizedError";
+import { User } from "@prisma/client";
 
 export interface LoginResponse extends Response {}
 
@@ -28,15 +28,7 @@ export default async function handler(
 
     const { email, password } = req.body;
     const userDao: UserDao = new UserDao();
-    const userList: User[] = await userDao.getBy("email", email, undefined, {
-      password: true,
-    });
-
-    if (userList.length > 1) {
-      throw new InternalServerError();
-    }
-
-    const user = userList[0];
+    const user: User = await userDao.getByEmail(email);
 
     const result = await compare(password, user.password);
 
