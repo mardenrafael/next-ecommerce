@@ -1,8 +1,8 @@
 import UserDao from "@/dao/UserDao/UserDao";
-import { User } from "@/database/model/User";
 import InternalServerError from "@/http/errors/InternalServerError";
 import MethodNotAllowedError from "@/http/errors/MethodNotAllowedError";
 import Response from "@/http/Response";
+import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export interface RegisterResponse extends Response {}
