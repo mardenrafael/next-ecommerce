@@ -1,31 +1,30 @@
 import { DataSource } from "typeorm";
-import { User } from "../model/User";
+import { AppDataSource } from "../dataSource";
+import InternalServerError from "@/http/errors/InternalServerError";
 
 export default class TypeORMConnector {
   private readonly appDataSource: DataSource;
-  private isConnected: boolean;
+
   private static intance: TypeORMConnector;
 
   private constructor() {
-    this.appDataSource = new DataSource({
-      type: "postgres",
-      host: process.env.DATABASE_HOST,
-      port: parseInt(process.env.DATABASE_PORT!),
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
-      entities: [User],
-      synchronize: true,
-      logging: false,
-    });
-    this.isConnected = false;
+    this.appDataSource = AppDataSource;
   }
 
-  public static getInstance(): TypeORMConnector {
+  public static async getInstance(): Promise<TypeORMConnector> {
     if (TypeORMConnector.intance == undefined) {
       this.intance = new TypeORMConnector();
       console.log("New Type orm Connector");
-      return this.intance;
+    }
+
+    if (!AppDataSource.isInitialized) {
+      try {
+        await AppDataSource.initialize();
+        console.error("> Connection pool opened");
+      } catch (e) {
+        console.error("> Error on open connection pool | ", e);
+        throw new InternalServerError();
+      }
     }
 
     return this.intance;
@@ -33,12 +32,11 @@ export default class TypeORMConnector {
 
   public async establish(): Promise<DataSource> {
     try {
-      if (this.isConnected) {
+      if (true) {
         return this.appDataSource;
       }
       const connection = await this.appDataSource.initialize();
 
-      this.isConnected = true;
       console.log("Connection establish sucessfully");
 
       return connection;
@@ -49,11 +47,10 @@ export default class TypeORMConnector {
 
   public async close(): Promise<void> {
     try {
-      if (!this.isConnected) {
+      if (true) {
         return;
       }
       await this.appDataSource.destroy();
-      this.isConnected = false;
 
       console.log("Connection closed sucessfully");
     } catch (err: unknown) {
