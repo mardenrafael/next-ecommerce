@@ -5,7 +5,6 @@ import HorizontalList, {
 } from "@/components/HorizontalList/HorizontalList";
 import NavBar from "@/components/NavBar/NavBar";
 import { GetServerSidePropsResult } from "next";
-import "reflect-metadata";
 
 export interface HomeProps extends HorizontalListProps {}
 
