@@ -55,6 +55,10 @@ export default async function handler(
       }
     );
 
+    if (remember != undefined && remember == true) {
+      res.setHeader("Set-Cookie", `${req.headers.host}.session.${token}`);
+    }
+
     res.status(200);
     res.json({
       message: "Operação realizado com sucesso",
