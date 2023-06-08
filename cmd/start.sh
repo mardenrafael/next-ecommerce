@@ -4,7 +4,7 @@
 echo "#####################################################"
 echo "# Reiniciando banco de dados e aplicando migrations #"
 echo "#####################################################"
-# npm run typeorm migration:run -- -d ./src/database/dataSource.ts
+npx prisma migrate reset -f
 
 echo "#######################"
 echo "# Iniciando o sistema #"
