@@ -13,6 +13,6 @@ export default abstract class Dao<E> {
     return this.connector;
   }
 
-  public abstract create(model: E): Promise<Omit<E, keyof E>>;
-  public abstract getById(id: string): Promise<Omit<E, keyof E>>;
+  public abstract create(model: E): Promise<E>;
+  public abstract getById(id: string): Promise<E>;
 }
