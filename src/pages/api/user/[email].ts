@@ -1,4 +1,4 @@
-import UserDao from "@/dao/UserDao/UserDao";
+import UserDao from "@/database/dao/UserDao/UserDao";
 import BadRequestError from "@/http/errors/BadRequestError";
 import InternalServerError from "@/http/errors/InternalServerError";
 import MethodNotAllowedError from "@/http/errors/MethodNotAllowedError";
