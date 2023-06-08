@@ -34,6 +34,12 @@ export default function Login({
 
   function handleInput(e: ChangeEvent<HTMLInputElement>): void {
     setFormFields((prevState) => {
+      if (e.target.type === "checkbox") {
+        return {
+          ...prevState,
+          remember: e.target.checked,
+        };
+      }
       return {
         ...prevState,
         [e.target.name]: e.target.value,
@@ -128,8 +134,8 @@ export default function Login({
                     <Input
                       type="checkbox"
                       id="remember"
-                      onChange={() => {}}
-                      required
+                      onChange={handleInput}
+                      required={false}
                     />
                   </div>
                   <div className="ml-3 text-sm">
