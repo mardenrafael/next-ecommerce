@@ -3,6 +3,7 @@ import Dao from "../Dao";
 
 import { User } from "@prisma/client";
 import { genSalt, hash } from "bcryptjs";
+import NotFoundError from "@/http/errors/NotFoundError";
 
 export default class UserDao extends Dao<User> {
   constructor() {
@@ -14,63 +15,58 @@ export default class UserDao extends Dao<User> {
     name,
     password,
     terms,
-  }: Omit<User, "id">): Promise<Omit<User, "password">> {
+  }: Omit<User, "id">): Promise<User> {
     const connector = super.getConnector();
     const prisma = connector.getPrisma();
 
-    try {
-      const uuid = randomUUID();
+    const uuid = randomUUID();
 
-      const salt = await genSalt(12);
-      const hashedPassword = await hash(password, salt);
+    const salt = await genSalt(12);
+    const hashedPassword = await hash(password, salt);
 
-      const [savedUser] = await prisma.$transaction([
-        prisma.user.create({
-          data: {
-            id: uuid,
-            email,
-            name,
-            password: hashedPassword,
-            terms,
-          },
-          select: {
-            email: true,
-            id: true,
-            name: true,
-            terms: true,
-          },
-        }),
-      ]);
-      return savedUser;
-    } catch (error: unknown) {
-      console.error(error);
-
-      throw error;
-    }
+    const [savedUser] = await prisma.$transaction([
+      prisma.user.create({
+        data: {
+          id: uuid,
+          email,
+          name,
+          password: hashedPassword,
+          terms,
+        },
+      }),
+    ]);
+    return savedUser;
   }
 
-  public async getById(id: string): Promise<Omit<User, "password">> {
+  public async getById(id: string): Promise<User> {
     const connector = super.getConnector();
     const prisma = connector.getPrisma();
-    try {
-      const user = await prisma.user.findUnique({
-        where: {
-          id,
-        },
-        select: {
-          email: true,
-          id: true,
-          name: true,
-          terms: true,
-        },
-      });
+    const userOrNull = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
 
-      if (user == null) {
-        throw new Error();
-      }
-      return user;
-    } catch (error: unknown) {
-      throw error;
+    if (userOrNull == null) {
+      throw new NotFoundError();
     }
+    return userOrNull;
+  }
+
+  public async getByEmail(email: string): Promise<User> {
+    const connector = super.getConnector();
+    const prisma = connector.getPrisma();
+
+    const userOrNull = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (userOrNull == null) {
+      throw new NotFoundError();
+    }
+
+    return userOrNull;
   }
 }
