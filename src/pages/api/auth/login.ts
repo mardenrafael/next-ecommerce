@@ -56,7 +56,7 @@ export default async function handler(
     );
 
     if (remember != undefined && remember == true) {
-      res.setHeader("Set-Cookie", `${req.headers.host}.session.${token}`);
+      res.setHeader("Set-Cookie", `${req.headers.host}.session=${token}`);
     }
 
     res.status(200);
