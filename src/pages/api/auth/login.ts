@@ -1,12 +1,12 @@
 import UserDao from "@/database/dao/UserDao/UserDao";
-import MethodNotAllowedError from "@/http/errors/MethodNotAllowedError";
 import Response from "@/http/Response";
-
-import { NextApiRequest, NextApiResponse } from "next";
-import { compare } from "bcryptjs";
-import InternalServerError from "@/http/errors/InternalServerError";
+import MethodNotAllowedError from "@/http/errors/MethodNotAllowedError";
 import UnathorizedError from "@/http/errors/UnauthorizedError";
 import { User } from "@prisma/client";
+import { compare } from "bcryptjs";
+import { randomUUID } from "crypto";
+import { sign } from "jsonwebtoken";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export interface LoginResponse extends Response {}
 
@@ -26,7 +26,7 @@ export default async function handler(
       return;
     }
 
-    const { email, password } = req.body;
+    const { email, password, remember } = req.body;
     const userDao: UserDao = new UserDao();
     const user: User = await userDao.getByEmail(email);
 
@@ -36,10 +36,29 @@ export default async function handler(
       throw new UnathorizedError();
     }
 
+    const token = sign(
+      {
+        name: user.name,
+      },
+      process.env.JWT_SECRET!,
+      {
+        algorithm: "HS256",
+        expiresIn: 28800,
+        noTimestamp: true,
+        audience: `http://${req.headers.host}`,
+        issuer: `http://${req.headers.host}`,
+        jwtid: randomUUID(),
+        header: {
+          alg: "HS256",
+          typ: "jwt",
+        },
+      }
+    );
+
     res.status(200);
     res.json({
       message: "Operação realizado com sucesso",
-      data: [user],
+      data: [user, { token: token }],
     });
   } catch (error: unknown) {
     console.log(error);
