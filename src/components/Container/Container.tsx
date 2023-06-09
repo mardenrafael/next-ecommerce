@@ -8,7 +8,9 @@ export default function Container({ children }: ContainerProps): JSX.Element {
 
   return (
     <section
-      className={theme == ThemeOptions.light ? "bg-gray-50" : "bg-gray-800"}
+      className={`
+      h-full
+      ${theme == ThemeOptions.light ? "bg-gray-50" : "bg-gray-800"}`}
     >
       {children}
     </section>
