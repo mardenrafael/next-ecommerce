@@ -5,12 +5,33 @@ import Switch from "../Switch/Switch";
 import { useContext } from "react";
 import ButtonList from "../ButtonList/ButtonList";
 import ButtonListItem from "../ButtonListItem/ButtonListItem";
+import Image from "next/image";
 
-export default function SideNav(): JSX.Element {
+export interface SideNavProps {
+  logoUrl: string;
+}
+
+export default function SideNav({ logoUrl }: SideNavProps): JSX.Element {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
     <aside className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform sm:translate-x-0">
+      <div
+        className={`justify-center p-4 space-x-4 w-full lg:flex z-20 border-r
+        ${
+          theme == ThemeOptions.light
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-200"
+        }`}
+      >
+        <Image
+          src={logoUrl}
+          alt="logo"
+          className="h-8 mr-3"
+          width={32}
+          height={32}
+        />
+      </div>
       <div
         className={`overflow-y-auto py-5 px-3 h-full border-r  ${
           theme == ThemeOptions.light
