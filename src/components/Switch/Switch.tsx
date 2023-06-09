@@ -4,18 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 
 export interface SwitchProps {
-  title?: string;
-  icon?: IconProp;
   initialValue?: boolean;
-  leftSideIcon?: boolean;
   onSwitch?: () => void;
 }
 
 export default function Switch({
-  title,
-  icon,
   initialValue,
-  leftSideIcon,
   onSwitch,
 }: SwitchProps): JSX.Element {
   const [enabled, setEnabled] = useState<boolean | undefined>(false);
@@ -31,12 +25,6 @@ export default function Switch({
         theme == ThemeOptions.light ? "text-gray-900" : "text-white"
       }`}
     >
-      {icon && leftSideIcon ? (
-        <FontAwesomeIcon icon={icon} className="mr-2" />
-      ) : (
-        ""
-      )}
-      {title}
       <div
         className={`${
           enabled ? "bg-primary-600" : "bg-gray-200"
@@ -52,11 +40,6 @@ export default function Switch({
           } inline-block h-4 w-4 transform rounded-full bg-white transition`}
         ></span>
       </div>
-      {icon && !leftSideIcon ? (
-        <FontAwesomeIcon icon={icon} className="ml-2" />
-      ) : (
-        ""
-      )}
     </div>
   );
 }
