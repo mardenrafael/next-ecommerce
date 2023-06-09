@@ -24,12 +24,11 @@ export default function Scrumbs({ title, icon }: ScrumbsProps): JSX.Element {
         className={`inline-flex items-center text-sm font-medium
             ${
               theme == ThemeOptions.light
-                ? "text-gray-400 hover:text-primary-600"
-                : "text-gray-700 hover:text-white"
+                ? "text-gray-400 hover:text-primary-300"
+                : "text-gray-700 hover:text-primary-700"
             }`}
       >
         {icon ? <FontAwesomeIcon icon={icon} className="w-4 h-4 mr-2" /> : ""}
-
         {title}
       </Anchor>
     </li>
