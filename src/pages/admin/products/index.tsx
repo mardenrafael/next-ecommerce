@@ -12,7 +12,7 @@ export default function Products(): JSX.Element {
           <SideNav logoUrl="https://flowbite.com/docs/images/logo.svg" />
         </Container>
 
-        <nav className="h-fit ml-2">
+        <div className="h-fit">
           <BreadScrumbs
             scrumbs={[
               {
@@ -21,7 +21,7 @@ export default function Products(): JSX.Element {
               },
             ]}
           />
-        </nav>
+        </div>
 
         <div className="flex justify-center m-5">
           <button

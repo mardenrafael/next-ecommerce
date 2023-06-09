@@ -12,7 +12,7 @@ export default function Dashboard(): JSX.Element {
           <SideNav logoUrl="https://flowbite.com/docs/images/logo.svg" />
         </Container>
 
-        <nav className="h-fit ml-2">
+        <div className="h-fit">
           <BreadScrumbs
             scrumbs={[
               {
@@ -21,7 +21,7 @@ export default function Dashboard(): JSX.Element {
               },
             ]}
           />
-        </nav>
+        </div>
       </main>
       <Footer />
     </>
