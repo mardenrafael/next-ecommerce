@@ -1,8 +1,16 @@
 import { Layout } from "@/components/Layout/Layout";
+import { faBoxesStacked } from "@fortawesome/free-solid-svg-icons";
 
 export default function Products(): JSX.Element {
   return (
-    <Layout.Root>
+    <Layout.Root
+      scrumbs={[
+        {
+          title: "Produtos",
+          icon: faBoxesStacked,
+        },
+      ]}
+    >
       <Layout.Body>
         <div className="flex justify-center">
           <button
