@@ -74,7 +74,7 @@ export default function Login({
         theme: theme == ThemeOptions.light ? "light" : "dark",
         autoClose: 2500,
       });
-      push("/dashboard");
+      push("/admin/dashboard");
     } catch (error: unknown) {
       toast("Ops, algo de errado aconteceu :(", {
         type: "error",
