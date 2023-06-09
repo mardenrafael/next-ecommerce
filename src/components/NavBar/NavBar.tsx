@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useContext } from "react";
 import Anchor from "../Anchor/Anchor";
 import Switch from "../Switch/Switch";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function NavBar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -12,9 +13,14 @@ export default function NavBar() {
   return (
     <nav className={theme == ThemeOptions.light ? "bg-white" : "bg-gray-900"}>
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div>
-          <Switch
+        <div className="flex items-center gap-2">
+          <FontAwesomeIcon
             icon={theme == ThemeOptions.light ? faMoon : faSun}
+            className={`${
+              theme == ThemeOptions.light ? "text-black" : "text-white"
+            }`}
+          />
+          <Switch
             initialValue={!(theme == ThemeOptions.light)}
             onSwitch={toggleTheme}
           />
