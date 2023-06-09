@@ -3,8 +3,8 @@ import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Switch from "../Switch/Switch";
 import { useContext } from "react";
-import ButtonList from "../ButtonList/ButtonList";
-import ButtonListItem from "../ButtonListItem/ButtonListItem";
+import LinkList from "../LinkList/LinkList";
+import LinkListItem from "../LinkListItem/LinkListItem";
 import Image from "next/image";
 
 export interface SideNavProps {
@@ -15,7 +15,7 @@ export default function SideNav({ logoUrl }: SideNavProps): JSX.Element {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <aside className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform sm:translate-x-0">
+    <aside className="w-64 h-screen transition-transform sm:translate-x-0">
       <div
         className={`justify-center p-4 space-x-4 w-full lg:flex z-20 border-r
         ${
@@ -39,8 +39,8 @@ export default function SideNav({ logoUrl }: SideNavProps): JSX.Element {
             : "bg-white border-gray-200"
         }`}
       >
-        <ButtonList>
-          <ButtonListItem>
+        <LinkList>
+          <LinkListItem>
             <a
               href="#"
               className={`flex items-center p-2 text-base font-normal rounded-lg ${
@@ -60,14 +60,14 @@ export default function SideNav({ logoUrl }: SideNavProps): JSX.Element {
               </svg>
               <span className="ml-3">Dashboard</span>
             </a>
-          </ButtonListItem>
-        </ButtonList>
+          </LinkListItem>
+        </LinkList>
         <div
           className={`pt-5 mt-5 space-y-2 border-t 
         ${theme == ThemeOptions.light ? "border-gray-700" : "border-gray-200"}`}
         >
-          <ButtonList>
-            <ButtonListItem>
+          <LinkList>
+            <LinkListItem>
               <a
                 href="#"
                 className={`flex items-center p-2 text-base font-normal rounded-lg ${
@@ -90,8 +90,8 @@ export default function SideNav({ logoUrl }: SideNavProps): JSX.Element {
                 </svg>
                 <span className="ml-3">Configurações</span>
               </a>
-            </ButtonListItem>
-            <ButtonListItem>
+            </LinkListItem>
+            <LinkListItem>
               <div className="flex items-center p-2">
                 <FontAwesomeIcon
                   icon={theme == ThemeOptions.light ? faMoon : faSun}
@@ -102,8 +102,8 @@ export default function SideNav({ logoUrl }: SideNavProps): JSX.Element {
                   onSwitch={toggleTheme}
                 />
               </div>
-            </ButtonListItem>
-          </ButtonList>
+            </LinkListItem>
+          </LinkList>
         </div>
       </div>
     </aside>
