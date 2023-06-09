@@ -1,13 +1,8 @@
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
-import Anchor from "../Anchor/Anchor";
-import { useContext } from "react";
-import { IconProp, icon } from "@fortawesome/fontawesome-svg-core";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChartArea,
-  faChartGantt,
-  faChartLine,
-} from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import Anchor from "../Anchor/Anchor";
 
 export interface ScrumbsProps {
   title: string;
