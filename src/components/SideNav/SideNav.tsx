@@ -1,5 +1,6 @@
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import {
+  faBoxesStacked,
   faChartLine,
   faMoon,
   faSun,
@@ -7,11 +8,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
 import { useContext } from "react";
 import LinkList from "../LinkList/LinkList";
 import LinkListItem from "../LinkListItem/LinkListItem";
 import Switch from "../Switch/Switch";
-import Anchor from "../Anchor/Anchor";
 
 export interface SideNavProps {
   logoUrl: string;
@@ -38,8 +39,8 @@ export default function SideNav({ logoUrl }: SideNavProps): JSX.Element {
       <div className={`py-5 px-3`}>
         <LinkList>
           <LinkListItem>
-            <Anchor
-              href="#"
+            <Link
+              href="/admin/dashboard"
               className={`flex items-center p-2 text-base font-normal rounded-lg ${
                 theme == ThemeOptions.light
                   ? "text-gray-900 hover:bg-gray-100 border-gray-200"
@@ -51,7 +52,23 @@ export default function SideNav({ logoUrl }: SideNavProps): JSX.Element {
                 className="w-6 h-6 transition duration-75 text-gray-400"
               />
               <span className="ml-3">Dashboard</span>
-            </Anchor>
+            </Link>
+          </LinkListItem>
+          <LinkListItem>
+            <Link
+              href="/admin/products"
+              className={`flex items-center p-2 text-base font-normal rounded-lg ${
+                theme == ThemeOptions.light
+                  ? "text-gray-900 hover:bg-gray-100 border-gray-200"
+                  : "text-white hover:bg-gray-700"
+              }`}
+            >
+              <FontAwesomeIcon
+                icon={faBoxesStacked}
+                className="w-6 h-6 transition duration-75 text-gray-400"
+              />
+              <span className="ml-3">Produtos</span>
+            </Link>
           </LinkListItem>
         </LinkList>
         <div
