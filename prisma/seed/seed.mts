@@ -1,5 +1,8 @@
 import { PrismaClient } from "@prisma/client";
+import bcryptjs from "bcryptjs";
 import { randomUUID } from "crypto";
+
+const { genSalt, hash } = bcryptjs;
 
 const prisma = new PrismaClient();
 
@@ -68,15 +71,19 @@ async function main() {
         const userCriationStartTime = Date.now();
         console.log("> Criando usuarios");
 
+        const salt = await genSalt(12);
+        const hashedPassword = await hash("12345678", salt);
+
         for (let i = 0; i < userQtd; i++) {
           if (verbose) {
             console.log(`> Criando usuario ${i}`);
           }
+
           await prisma.user.create({
             data: {
               id: randomUUID(),
               name: `usuario ${i}`,
-              password: "12345678",
+              password: hashedPassword,
               email: `usuario${i}@gmail.com`,
               terms: true,
             },
