@@ -1,43 +1,21 @@
-import { useEffect, useState } from "react";
-import ProductTableItem, {
-  ProductTableItemProps,
-} from "../ProductTableItem/ProductTableItem";
+import { ProductsContext } from "@/context/productsContext";
+import { useContext } from "react";
+import ProductTableItem from "../ProductTableItem/ProductTableItem";
 
-export interface ProductTableBodyProps {
-  products: ProductTableItemProps[];
-  pageIdx: number;
-  offSet: number;
-}
-
-export default function ProductTableBody({
-  products,
-  pageIdx,
-  offSet,
-}: ProductTableBodyProps): JSX.Element {
-  const [arrayToRender, setArrayToRender] = useState<ProductTableItemProps[]>();
-
-  useEffect(() => {
-    const arrayToRender: ProductTableItemProps[] = products.slice(
-      offSet * pageIdx,
-      10 + offSet * pageIdx
-    );
-    setArrayToRender(arrayToRender);
-  }, [pageIdx]);
+export default function ProductTableBody(): JSX.Element {
+  const { currentPage } = useContext(ProductsContext);
 
   return (
     <tbody>
-      {arrayToRender &&
-        arrayToRender.map(
-          ({ productName, productDescription, productPrice }) => {
-            return (
-              <ProductTableItem
-                productName={productName}
-                productDescription={productDescription}
-                productPrice={productPrice}
-              />
-            );
-          }
-        )}
+      {currentPage.map(({ productName, productDescription, productPrice }) => {
+        return (
+          <ProductTableItem
+            productName={productName}
+            productDescription={productDescription}
+            productPrice={productPrice}
+          />
+        );
+      })}
     </tbody>
   );
 }

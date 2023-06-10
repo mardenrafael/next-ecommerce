@@ -4,6 +4,7 @@ import ProductTableFooter from "@/components/ProductTableFooter/ProductTableFoot
 import { ProductTableItemProps } from "@/components/ProductTableItem/ProductTableItem";
 import ProductTableNav from "@/components/ProductTableNav/ProductTableNav";
 import ProductTableSet from "@/components/ProductTableSet/ProductTableSet";
+import ProductsProvider from "@/context/productsContext";
 import PrismaConnector from "@/database/connector/PrismaConnector";
 import { faBoxesStacked } from "@fortawesome/free-solid-svg-icons";
 import { GetServerSidePropsResult } from "next";
@@ -23,11 +24,13 @@ export default function Products({ products }: ProductsProps): JSX.Element {
       ]}
     >
       <Layout.Body>
-        <ProductTable>
-          <ProductTableNav />
-          <ProductTableSet products={products} />
-          <ProductTableFooter />
-        </ProductTable>
+        <ProductsProvider products={products}>
+          <ProductTable>
+            <ProductTableNav />
+            <ProductTableSet />
+            <ProductTableFooter />
+          </ProductTable>
+        </ProductsProvider>
       </Layout.Body>
     </Layout.Root>
   );
@@ -42,7 +45,7 @@ export async function getServerSideProps(): Promise<
 
     const products = await prisma.product.findMany({
       where: {
-        userId: "095c433d-d3ae-4d54-b906-a755b273840a",
+        userId: "53483084-e27f-484c-b80d-65082a0336de",
       },
     });
 
@@ -53,8 +56,6 @@ export async function getServerSideProps(): Promise<
         productDescription: product.name,
       };
     });
-    console.log(products);
-
     return {
       props: {
         products: parsedProducts,
