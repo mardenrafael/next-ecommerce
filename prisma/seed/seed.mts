@@ -10,6 +10,7 @@ async function main() {
   let env: "development" | "test" | "production" = "development";
   let verbose: boolean = false;
   let userQtd: number = 500;
+  let prodQtd: number = 10;
   let startTime = Date.now();
 
   process.argv.forEach((val, idx, args) => {
@@ -50,6 +51,15 @@ async function main() {
         userQtd = value;
       }
       console.log(`> Criando ${userQtd} usuarios`);
+    }
+
+    if (val == "--products" || val == "-p") {
+      let value = parseInt(args[idx + 1]);
+
+      if (Number.isNaN(value) || value >= 0) {
+        prodQtd = value;
+      }
+      console.log(`> Criando ${prodQtd} para cada usuarios`);
     }
   });
 
@@ -94,7 +104,7 @@ async function main() {
             console.log(`> Criado usuario ${i} com sucesso`);
           }
 
-          for (let j = 0; j < 10; j++) {
+          for (let j = 0; j < prodQtd; j++) {
             if (verbose) {
               console.log(`> Criando produto ${j}`);
             }
