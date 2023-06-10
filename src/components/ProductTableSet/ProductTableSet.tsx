@@ -12,7 +12,7 @@ export default function ProductTableSet({
   return (
     <table className={`w-full text-sm text-left text-gray-500`}>
       <ProductTableHeader />
-      <ProductTableBody products={products} />
+      <ProductTableBody products={products} pageIdx={0} offSet={10} />
     </table>
   );
 }

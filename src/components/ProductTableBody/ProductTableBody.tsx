@@ -5,40 +5,39 @@ import ProductTableItem, {
 
 export interface ProductTableBodyProps {
   products: ProductTableItemProps[];
+  pageIdx: number;
+  offSet: number;
 }
 
 export default function ProductTableBody({
   products,
+  pageIdx,
+  offSet,
 }: ProductTableBodyProps): JSX.Element {
-  const [pageIdx, setPageIdx] = useState(0);
-  const [qtdPage, setQdtPages] = useState(products.length / 10);
-  const [arrayToRender, setArrayToRender] = useState<ProductTableItemProps[]>(
-    []
-  );
-  // console.log(pageIdx);
-  // console.log(qtdPage);
+  const [arrayToRender, setArrayToRender] = useState<ProductTableItemProps[]>();
 
   useEffect(() => {
-    const slicedArray = products.slice(0, 10);
-
-    setArrayToRender(slicedArray);
-  }, []);
-
-  useEffect(() => {}, [pageIdx]);
+    const arrayToRender: ProductTableItemProps[] = products.slice(
+      offSet * pageIdx,
+      10 + offSet * pageIdx
+    );
+    setArrayToRender(arrayToRender);
+  }, [pageIdx]);
 
   return (
     <tbody>
-      {arrayToRender.map(
-        ({ productName, productDescription, productPrice }) => {
-          return (
-            <ProductTableItem
-              productName={productName}
-              productDescription={productDescription}
-              productPrice={productPrice}
-            />
-          );
-        }
-      )}
+      {arrayToRender &&
+        arrayToRender.map(
+          ({ productName, productDescription, productPrice }) => {
+            return (
+              <ProductTableItem
+                productName={productName}
+                productDescription={productDescription}
+                productPrice={productPrice}
+              />
+            );
+          }
+        )}
     </tbody>
   );
 }
