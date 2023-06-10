@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 async function main() {
   let env: "development" | "test" | "production" = "development";
   let verbose: boolean = false;
+  let userQtd: number = 500;
   let startTime = Date.now();
 
   process.argv.forEach((val, idx, args) => {
@@ -38,6 +39,15 @@ async function main() {
       verbose = true;
       console.log(`> Modo verboso ativado`);
     }
+
+    if (val == "--user" || val == "-u") {
+      let value = parseInt(args[idx + 1]);
+
+      if (Number.isNaN(value) || value >= 0) {
+        userQtd = value;
+      }
+      console.log(`> Criando ${userQtd} usuarios`);
+    }
   });
 
   if (verbose) {
@@ -58,52 +68,22 @@ async function main() {
         const userCriationStartTime = Date.now();
         console.log("> Criando usuarios");
 
-        if (verbose) {
-          console.log("> Criando usuario 001");
-        }
-        const usuario001 = await prisma.user.create({
-          data: {
-            id: randomUUID(),
-            name: "usuario 001",
-            password: "12345678",
-            email: "usuario001@gmail.com",
-            terms: true,
-          },
-        });
-
-        if (verbose) {
-          console.log("> Criado usuario 001 com sucesso");
-        }
-
-        if (verbose) {
-          console.log("> Criando usuario 002");
-        }
-        const usuario002 = await prisma.user.create({
-          data: {
-            id: randomUUID(),
-            name: "usuario 002",
-            password: "12345678",
-            email: "usuario002@gmail.com",
-            terms: true,
-          },
-        });
-        if (verbose) {
-          console.log("> Criado usuario 002 com sucesso");
-        }
-        if (verbose) {
-          console.log("> Criando usuario 003");
-        }
-        const usuario003 = await prisma.user.create({
-          data: {
-            id: randomUUID(),
-            name: "usuario 003",
-            password: "12345678",
-            email: "usuario003@gmail.com",
-            terms: true,
-          },
-        });
-        if (verbose) {
-          console.log("> Criado usuario 003 com sucesso");
+        for (let i = 0; i < userQtd; i++) {
+          if (verbose) {
+            console.log(`> Criando usuario ${i}`);
+          }
+          await prisma.user.create({
+            data: {
+              id: randomUUID(),
+              name: `usuario ${i}`,
+              password: "12345678",
+              email: `usuario${i}@gmail.com`,
+              terms: true,
+            },
+          });
+          if (verbose) {
+            console.log(`> Criado usuario ${i} com sucesso`);
+          }
         }
 
         if (verbose) {
