@@ -1,10 +1,4 @@
-import {
-  PropsWithChildren,
-  SetStateAction,
-  createContext,
-  useEffect,
-  useState,
-} from "react";
+import { PropsWithChildren, createContext, useState } from "react";
 
 export enum ThemeOptions {
   light = "light",
