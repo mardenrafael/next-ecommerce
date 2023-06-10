@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:seed": "node --no-warnings --loader ts-node/esm ./prisma/seed/seed.mts",
+    "prisma:reset": "prisma migrate reset -f"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",

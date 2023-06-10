@@ -1,19 +1,40 @@
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Label from "../Label/Label";
+import { useContext } from "react";
 import Container from "../Container/Container";
 import Input from "../Input/Input";
-import { useContext } from "react";
+import Label from "../Label/Label";
 
 export default function CreateProductForm(): JSX.Element {
   const { theme } = useContext(ThemeContext);
 
   return (
     <Container>
-      <div className="p-4">
+      <div className="flex items-center justify-center h-screen ">
         <form action="#">
-          <div className="grid gap-4 mb-4 sm:grid-cols-2">
+          <div className="grid gap-4 mb-4 grid-cols-2">
+            <div className="col-span-2">
+              <Label
+                htmlFor="productImage"
+                className={`block mb-2 text-sm font-medium
+                    ${
+                      theme == ThemeOptions.light
+                        ? "text-gray-900"
+                        : "text-white"
+                    }`}
+              >
+                Imagem do produto:
+              </Label>
+              <Input
+                id="productImage"
+                name="productImage"
+                type="file"
+                onChange={() => {}}
+                required
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              />
+            </div>
             <div>
               <Label
                 htmlFor="productName"
@@ -46,7 +67,7 @@ export default function CreateProductForm(): JSX.Element {
                         : "text-white"
                     }`}
               >
-                Price
+                Valor do produto:
               </Label>
               <Input
                 id="productPrice"

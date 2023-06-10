@@ -1,8 +1,7 @@
-import Image from "next/image";
-import applewatch from "../../../public/img/apple-watch.png";
-import Anchor from "../Anchor/Anchor";
-import { useContext } from "react";
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
+import Image from "next/image";
+import { useContext } from "react";
+import Anchor from "../Anchor/Anchor";
 
 export interface ProductCardProps {
   productName: string;

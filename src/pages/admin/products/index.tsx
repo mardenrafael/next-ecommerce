@@ -1,29 +1,18 @@
-import Container from "@/components/Container/Container";
-import Footer from "@/components/Footer/Footer";
-import SideNav from "@/components/SideNav/SideNav";
-import BreadScrumbs from "@/components/BreadScrumbs/BreadScrumbs";
+import { Layout } from "@/components/Layout/Layout";
 import { faBoxesStacked } from "@fortawesome/free-solid-svg-icons";
 
 export default function Products(): JSX.Element {
   return (
-    <>
-      <main className="flex">
-        <Container>
-          <SideNav logoUrl="https://flowbite.com/docs/images/logo.svg" />
-        </Container>
-
-        <div className="h-fit">
-          <BreadScrumbs
-            scrumbs={[
-              {
-                title: "Produtos",
-                icon: faBoxesStacked,
-              },
-            ]}
-          />
-        </div>
-
-        <div className="flex justify-center m-5">
+    <Layout.Root
+      scrumbs={[
+        {
+          title: "Produtos",
+          icon: faBoxesStacked,
+        },
+      ]}
+    >
+      <Layout.Body>
+        <div className="flex justify-center">
           <button
             id="defaultModalButton"
             data-modal-toggle="defaultModal"
@@ -33,8 +22,7 @@ export default function Products(): JSX.Element {
             Create product
           </button>
         </div>
-      </main>
-      <Footer />
-    </>
+      </Layout.Body>
+    </Layout.Root>
   );
 }
