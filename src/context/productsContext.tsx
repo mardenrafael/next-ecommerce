@@ -8,6 +8,8 @@ export interface ProductsPage {
   pageIdx: number;
   setPageIdx: (pageIdx: number) => void;
   currentPage: ProductTableItemProps[];
+  itensPerPage: number;
+  setItensPerPage: (itens: number) => void;
 }
 
 export interface ProductsProviderProps extends PropsWithChildren {
@@ -21,6 +23,8 @@ export const ProductsContext = createContext<ProductsPage>({
   pageIdx: 0,
   setPageIdx: () => {},
   currentPage: [],
+  itensPerPage: 10,
+  setItensPerPage: () => {},
 });
 
 export default function ProductsProvider({
@@ -28,13 +32,14 @@ export default function ProductsProvider({
   products,
 }: ProductsProviderProps): JSX.Element {
   const [offSet, setOffSet] = useState(10);
-  const [pageIdx, setPageIdx] = useState(0);
+  const [pageIdx, setPageIdx] = useState(1);
   const [currentPage, setCurrentPage] = useState<ProductTableItemProps[]>([]);
+  const [itensPerPage, setItensPerPage] = useState(10);
 
   useEffect(() => {
     const arrayToRender: ProductTableItemProps[] = products.slice(
       offSet * pageIdx,
-      10 + offSet * pageIdx
+      itensPerPage + offSet * pageIdx
     );
     setCurrentPage(arrayToRender);
   }, [pageIdx]);
@@ -42,12 +47,14 @@ export default function ProductsProvider({
   return (
     <ProductsContext.Provider
       value={{
-        products: [],
+        products,
         offSet,
         setOffSet,
         pageIdx,
         setPageIdx,
         currentPage,
+        itensPerPage,
+        setItensPerPage,
       }}
     >
       {children}
