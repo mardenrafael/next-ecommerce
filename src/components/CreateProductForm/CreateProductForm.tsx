@@ -1,11 +1,10 @@
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Container from "../Container/Container";
 import Input from "../Input/Input";
 import Label from "../Label/Label";
-import Image from "next/image";
 
 export default function CreateProductForm(): JSX.Element {
   const { theme } = useContext(ThemeContext);
