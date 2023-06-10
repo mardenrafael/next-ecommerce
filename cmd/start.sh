@@ -6,11 +6,6 @@ echo "# Reiniciando banco de dados e aplicando migrations #"
 echo "#####################################################"
 npx prisma migrate reset -f
 
-echo "##################################"
-echo "# Fazendo seed no banco de dados #"
-echo "##################################"
-npm run prisma:seed -- --env development -v
-
 echo "#######################"
 echo "# Iniciando o sistema #"
 echo "#######################"
