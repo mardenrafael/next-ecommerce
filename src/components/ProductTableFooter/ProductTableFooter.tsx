@@ -1,9 +1,8 @@
+import { ProductsContext } from "@/context/productsContext";
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Anchor from "../Anchor/Anchor";
 import { useContext } from "react";
-import { ProductsContext } from "@/context/productsContext";
 
 export default function ProductTableFooter(): JSX.Element {
   const { theme } = useContext(ThemeContext);

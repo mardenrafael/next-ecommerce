@@ -1,6 +1,5 @@
 import ProductTableBody from "../ProductTableBody/ProductTableBody";
 import ProductTableHeader from "../ProductTableHeader/ProductTableHeader";
-import { ProductTableItemProps } from "../ProductTableItem/ProductTableItem";
 
 export default function ProductTableSet(): JSX.Element {
   return (
