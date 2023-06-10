@@ -56,7 +56,7 @@ export default function ProductsProvider({
     );
 
     setCurrentPage(arrayToRender);
-  }, [pageIdx]);
+  }, []);
 
   return (
     <ProductsContext.Provider
