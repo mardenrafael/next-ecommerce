@@ -9,7 +9,7 @@ npx prisma migrate reset -f
 echo "##################################"
 echo "# Fazendo seed no banco de dados #"
 echo "##################################"
-npm run prisma:seed -- --env development -v --user 2500
+npm run prisma:seed -- --env development -v
 
 echo "#######################"
 echo "# Iniciando o sistema #"
