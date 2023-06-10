@@ -78,18 +78,44 @@ async function main() {
           if (verbose) {
             console.log(`> Criando usuario ${i}`);
           }
+          const userId = randomUUID();
 
           await prisma.user.create({
             data: {
-              id: randomUUID(),
+              id: userId,
               name: `usuario ${i}`,
               password: hashedPassword,
               email: `usuario${i}@gmail.com`,
               terms: true,
             },
           });
+
           if (verbose) {
             console.log(`> Criado usuario ${i} com sucesso`);
+          }
+
+          for (let j = 0; j < 10; j++) {
+            if (verbose) {
+              console.log(`> Criando produto ${j}`);
+            }
+
+            const productId = randomUUID();
+
+            await prisma.product.create({
+              data: {
+                id: productId,
+                name: `produto ${j}`,
+                price: 250.0,
+                description: `id do produto ${productId}`,
+                userId: userId,
+              },
+            });
+
+            if (verbose) {
+              console.log(
+                `> Criado produto ${j} para o usuario ${userId} com sucesso`
+              );
+            }
           }
         }
 
