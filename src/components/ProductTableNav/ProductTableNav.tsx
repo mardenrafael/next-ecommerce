@@ -9,6 +9,7 @@ import {
 import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import Input from "../Input/Input";
 import { useContext } from "react";
+import Link from "next/link";
 
 export default function ProductTableNav(): JSX.Element {
   const { theme } = useContext(ThemeContext);
@@ -49,7 +50,7 @@ export default function ProductTableNav(): JSX.Element {
         </form>
       </div>
       <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-        <button
+        <Link
           type="button"
           className={`flex items-center justify-center focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 focus:outline-none text-white
           ${
@@ -57,10 +58,11 @@ export default function ProductTableNav(): JSX.Element {
               ? "bg-primary-700 hover:bg-primary-800 "
               : "bg-primary-600 hover:bg-primary-700 focus:ring-primary-800"
           }`}
+          href="/admin/products/createProduct"
         >
           <FontAwesomeIcon icon={faPlus} className="h-3.5 w-3.5 mr-2" />
           Adicionar produto
-        </button>
+        </Link>
         <div className="flex items-center space-x-3 w-full md:w-auto">
           <button
             className={`w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4
