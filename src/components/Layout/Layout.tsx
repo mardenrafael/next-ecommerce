@@ -5,7 +5,9 @@ import Footer from "../Footer/Footer";
 import SideNav from "../SideNav/SideNav";
 import { ScrumbsProps } from "../Scrumbs/Scrumbs";
 
-export interface BodyProps extends PropsWithChildren {}
+export interface BodyProps extends PropsWithChildren {
+  className?: string;
+}
 export interface RootProps extends PropsWithChildren {
   scrumbs: ScrumbsProps[];
 }
@@ -31,8 +33,8 @@ function Root({ children, scrumbs }: RootProps): JSX.Element {
   );
 }
 
-function Body({ children }: BodyProps): JSX.Element {
-  return <section>{children}</section>;
+function Body({ children, className }: BodyProps): JSX.Element {
+  return <section className={className}>{children}</section>;
 }
 
 export const Layout = {
