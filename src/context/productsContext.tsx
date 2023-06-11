@@ -46,7 +46,7 @@ export default function ProductsProvider({
       setPageIdx(0);
     }
 
-    if (pageIdx >= pageQtd) {
+    if (pageIdx > pageQtd) {
       setPageIdx(pageQtd - 1);
     }
 
@@ -56,7 +56,7 @@ export default function ProductsProvider({
     );
 
     setCurrentPage(arrayToRender);
-  }, []);
+  }, [pageIdx]);
 
   return (
     <ProductsContext.Provider
