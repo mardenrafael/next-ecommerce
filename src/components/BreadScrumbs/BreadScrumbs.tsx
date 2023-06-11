@@ -16,12 +16,20 @@ export default function BreadScrumbs({
           {scrumbs.map((scrumbProps, idx) => {
             if (scrumbs[idx + 1] == undefined) {
               return (
-                <Scrumbs title={scrumbProps.title} icon={scrumbProps.icon} />
+                <Scrumbs
+                  title={scrumbProps.title}
+                  icon={scrumbProps.icon}
+                  key={scrumbProps.title}
+                />
               );
             }
             return (
               <>
-                <Scrumbs title={scrumbProps.title} icon={scrumbProps.icon} />
+                <Scrumbs
+                  title={scrumbProps.title}
+                  icon={scrumbProps.icon}
+                  key={scrumbProps.title}
+                />
                 <ScrumbSeparator />
               </>
             );
