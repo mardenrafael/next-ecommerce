@@ -59,7 +59,7 @@ async function main() {
       if (Number.isNaN(value) || value >= 0) {
         prodQtd = value;
       }
-      console.log(`> Criando ${prodQtd} para cada usuarios`);
+      console.log(`> Criando ${prodQtd} produtos para cada usuarios`);
     }
   });
 
