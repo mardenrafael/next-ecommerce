@@ -1,19 +1,15 @@
 import { Layout } from "@/components/Layout/Layout";
+import NotFoundProducts from "@/components/NotFoundProducts/NotFoundProducts";
 import ProductTable from "@/components/ProductTable/ProductTable";
 import ProductTableFooter from "@/components/ProductTableFooter/ProductTableFooter";
 import { ProductTableItemProps } from "@/components/ProductTableItem/ProductTableItem";
 import ProductTableNav from "@/components/ProductTableNav/ProductTableNav";
 import ProductTableSet from "@/components/ProductTableSet/ProductTableSet";
 import ProductsProvider from "@/context/productsContext";
-import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import PrismaConnector from "@/database/connector/PrismaConnector";
 import { faBoxesStacked } from "@fortawesome/free-solid-svg-icons";
 import { GetServerSidePropsResult } from "next";
-import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
-import Image from "next/image";
-import notFound from "../../../../public/not-found.svg";
-import NotFoundProducts from "@/components/NotFoundProducts/NotFoundProducts";
+import { useEffect, useState } from "react";
 
 export interface ProductsProps {
   products: ProductTableItemProps[];
@@ -63,7 +59,7 @@ export async function getServerSideProps(): Promise<
 
     const products = await prisma.product.findMany({
       where: {
-        userId: "82add09d-be46-4471-bd2f-1d151bc09193",
+        userId: "a9c7e410-dc98-4646-99a8-17ed6889c525",
       },
     });
 
