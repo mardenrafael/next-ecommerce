@@ -5,15 +5,29 @@ import { ProductTableItemProps } from "@/components/ProductTableItem/ProductTabl
 import ProductTableNav from "@/components/ProductTableNav/ProductTableNav";
 import ProductTableSet from "@/components/ProductTableSet/ProductTableSet";
 import ProductsProvider from "@/context/productsContext";
+import { ThemeContext, ThemeOptions } from "@/context/themeContext";
 import PrismaConnector from "@/database/connector/PrismaConnector";
 import { faBoxesStacked } from "@fortawesome/free-solid-svg-icons";
 import { GetServerSidePropsResult } from "next";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import Image from "next/image";
+import notFound from "../../../../public/not-found.svg";
+import NotFoundProducts from "@/components/NotFoundProducts/NotFoundProducts";
 
 export interface ProductsProps {
   products: ProductTableItemProps[];
 }
 
 export default function Products({ products }: ProductsProps): JSX.Element {
+  const [hasProducts, setHasProducts] = useState(false);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setHasProducts(true);
+    }
+  });
+
   return (
     <Layout.Root
       scrumbs={[
@@ -25,11 +39,15 @@ export default function Products({ products }: ProductsProps): JSX.Element {
     >
       <Layout.Body>
         <ProductsProvider products={products}>
-          <ProductTable>
-            <ProductTableNav />
-            <ProductTableSet />
-            <ProductTableFooter />
-          </ProductTable>
+          {hasProducts ? (
+            <ProductTable>
+              <ProductTableNav />
+              <ProductTableSet />
+              <ProductTableFooter />
+            </ProductTable>
+          ) : (
+            <NotFoundProducts />
+          )}
         </ProductsProvider>
       </Layout.Body>
     </Layout.Root>
@@ -45,7 +63,7 @@ export async function getServerSideProps(): Promise<
 
     const products = await prisma.product.findMany({
       where: {
-        userId: "53483084-e27f-484c-b80d-65082a0336de",
+        userId: "82add09d-be46-4471-bd2f-1d151bc09193",
       },
     });
 
