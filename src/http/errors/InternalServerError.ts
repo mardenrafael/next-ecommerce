@@ -1,5 +1,6 @@
 export interface InternalServerErrorInterface extends Error {
   message: "Internal Server Error";
+  statusCode: number;
 }
 
 export default class InternalServerError
@@ -7,12 +8,13 @@ export default class InternalServerError
 {
   public message: "Internal Server Error";
   public name: string;
-  public stack?: string | undefined;
+  public stack?: string;
   public cause?: unknown;
+  public statusCode: number;
 
   constructor() {
     this.message = "Internal Server Error";
     this.name = InternalServerError.name;
-    this.stack = new Error().stack;
+    this.statusCode = 500;
   }
 }

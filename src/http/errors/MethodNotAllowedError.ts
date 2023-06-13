@@ -7,12 +7,11 @@ export default class MethodNotAllowedError
 {
   public message: "Method not Allowed";
   public name: string;
-  public stack: string | undefined;
+  public stack?: string;
   public cause: unknown;
 
   constructor() {
     this.message = "Method not Allowed";
     this.name = MethodNotAllowedError.name;
-    this.stack = new Error().stack;
   }
 }

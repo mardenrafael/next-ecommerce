@@ -1,5 +1,6 @@
 export interface BadRequestErrorInterface extends Error {
   message: "Bad request error";
+  statusCode: number;
 }
 
 export default class BadRequestError implements BadRequestErrorInterface {
@@ -7,10 +8,11 @@ export default class BadRequestError implements BadRequestErrorInterface {
   message: "Bad request error";
   stack?: string;
   cause?: unknown;
+  statusCode: number;
 
   constructor() {
     this.message = "Bad request error";
     this.name = BadRequestError.name;
-    this.stack = new Error().stack;
+    this.statusCode = 405;
   }
 }
