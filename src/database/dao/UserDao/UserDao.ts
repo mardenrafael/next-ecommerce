@@ -1,9 +1,8 @@
-import { randomUUID } from "crypto";
-import Dao from "../Dao";
-
+import NotFoundError from "@/http/errors/NotFoundError";
 import { User } from "@prisma/client";
 import { genSalt, hash } from "bcryptjs";
-import NotFoundError from "@/http/errors/NotFoundError";
+import { randomUUID } from "crypto";
+import Dao from "../Dao";
 
 export default class UserDao extends Dao<User> {
   constructor() {
