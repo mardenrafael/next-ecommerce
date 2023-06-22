@@ -9,7 +9,7 @@ export interface RegisterResponse extends Response {}
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<RegisterResponse>
+  res: NextApiResponse<RegisterResponse>,
 ): Promise<void> {
   try {
     const method = req.method;

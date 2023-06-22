@@ -5,67 +5,67 @@ import { randomUUID } from "crypto";
 import Dao from "../Dao";
 
 export default class UserDao extends Dao<User> {
-  constructor() {
-    super();
-  }
+	constructor() {
+		super();
+	}
 
-  public async create({
-    email,
-    name,
-    password,
-    terms,
-  }: Omit<User, "id">): Promise<User> {
-    const connector = super.getConnector();
-    const prisma = connector.getPrisma();
+	public async create({
+		email,
+		name,
+		password,
+		terms,
+	}: Omit<User, "id">): Promise<User> {
+		const connector = super.getConnector();
+		const prisma = connector.getPrisma();
 
-    const uuid = randomUUID();
+		const uuid = randomUUID();
 
-    const salt = await genSalt(12);
-    const hashedPassword = await hash(password, salt);
+		const salt = await genSalt(12);
+		const hashedPassword = await hash(password, salt);
 
-    const [savedUser] = await prisma.$transaction([
-      prisma.user.create({
-        data: {
-          id: uuid,
-          email,
-          name,
-          password: hashedPassword,
-          terms,
-        },
-      }),
-    ]);
-    return savedUser;
-  }
+		const [savedUser] = await prisma.$transaction([
+			prisma.user.create({
+				data: {
+					id: uuid,
+					email,
+					name,
+					password: hashedPassword,
+					terms,
+				},
+			}),
+		]);
+		return savedUser;
+	}
 
-  public async getById(id: string): Promise<User> {
-    const connector = super.getConnector();
-    const prisma = connector.getPrisma();
-    const userOrNull = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
+	public async getById(id: string): Promise<User> {
+		const connector = super.getConnector();
+		const prisma = connector.getPrisma();
+		const userOrNull = await prisma.user.findUnique({
+			where: {
+				id,
+			},
+		});
 
-    if (userOrNull == null) {
-      throw new NotFoundError();
-    }
-    return userOrNull;
-  }
+		if (userOrNull == null) {
+			throw new NotFoundError();
+		}
+		return userOrNull;
+	}
 
-  public async getByEmail(email: string): Promise<User> {
-    const connector = super.getConnector();
-    const prisma = connector.getPrisma();
+	public async getByEmail(email: string): Promise<User> {
+		const connector = super.getConnector();
+		const prisma = connector.getPrisma();
 
-    const userOrNull = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+		const userOrNull = await prisma.user.findUnique({
+			where: {
+				email,
+			},
+		});
 
-    if (userOrNull == null) {
-      throw new NotFoundError();
-    }
+		if (userOrNull == null) {
+			throw new NotFoundError();
+		}
 
-    return userOrNull;
-  }
+		return userOrNull;
+	}
 }
