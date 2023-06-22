@@ -5,7 +5,7 @@ import Response from "@/http/Response";
 import { User } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export interface RegisterResponse extends Response {}
+export interface RegisterResponse extends Response<User | { token: string }> {}
 
 export default async function handler(
   req: NextApiRequest,
