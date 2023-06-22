@@ -1,4 +1,4 @@
-import { User } from "@/database/model/User";
+import { User } from "@prisma/client";
 
 export default interface Response {
   message?: string;
