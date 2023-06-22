@@ -10,6 +10,7 @@ import Link from "next/link";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { UserContext } from "@/context/userContext";
 
 export interface LoginProps {
   brandName: string;
@@ -26,6 +27,7 @@ export default function Login({
   logoImageURL,
 }: LoginProps): JSX.Element {
   const { theme } = useContext(ThemeContext);
+  const { setName, setId, setToken } = useContext(UserContext);
   const { push } = useRouter();
   const [formFields, setFormFields] = useState<LoginFormFields>({
     email: "",
@@ -33,7 +35,7 @@ export default function Login({
   });
 
   function handleInput(e: ChangeEvent<HTMLInputElement>): void {
-    setFormFields((prevState) => {
+    setFormFields(prevState => {
       if (e.target.type === "checkbox") {
         return {
           ...prevState,
@@ -48,7 +50,7 @@ export default function Login({
   }
 
   async function handleFormSubmit(
-    e: FormEvent<HTMLFormElement>
+    e: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     e.preventDefault();
 
@@ -69,6 +71,12 @@ export default function Login({
         throw new Error();
       }
 
+      console.log(json);
+
+      setId(json.data[0].id);
+      setName(json.data[0].name);
+      setToken(json.data[1]);
+
       toast(json.message, {
         type: "success",
         theme: theme == ThemeOptions.light ? "light" : "dark",
@@ -87,7 +95,10 @@ export default function Login({
   return (
     <Container>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <Brand brandName={brandName} logoImageURL={logoImageURL} />
+        <Brand
+          brandName={brandName}
+          logoImageURL={logoImageURL}
+        />
         <div
           className={`w-full rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ${
             theme == ThemeOptions.light
