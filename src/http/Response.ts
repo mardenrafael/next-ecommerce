@@ -1,7 +1,5 @@
-import { User } from "@prisma/client";
-
-export default interface Response {
+export default interface Response<T> {
   message?: string;
   error?: Error;
-  data?: User[];
+  data?: T[];
 }
