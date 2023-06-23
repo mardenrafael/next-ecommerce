@@ -6,6 +6,7 @@ import Container from "../Container/Container";
 import Input from "../Input/Input";
 import Label from "../Label/Label";
 import { toast } from "react-toastify";
+import { UserContext } from "@/context/userContext";
 
 export interface FormFields {
   productName: string;
@@ -15,6 +16,7 @@ export interface FormFields {
 
 export default function CreateProductForm(): JSX.Element {
   const { theme } = useContext(ThemeContext);
+  const { id } = useContext(UserContext);
   const [formFields, setFormFields] = useState<FormFields>({
     productDescription: "",
     productName: "",
@@ -22,11 +24,11 @@ export default function CreateProductForm(): JSX.Element {
   });
 
   function handleFormChange(
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ): void {
     e.preventDefault();
 
-    setFormFields((prevState) => {
+    setFormFields(prevState => {
       return {
         ...prevState,
         [e.target.name]: e.target.value,
@@ -35,7 +37,7 @@ export default function CreateProductForm(): JSX.Element {
   }
 
   async function handleFormSubmit(
-    e: FormEvent<HTMLFormElement>
+    e: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     e.preventDefault();
 
@@ -63,20 +65,17 @@ export default function CreateProductForm(): JSX.Element {
     }
 
     try {
-      const result = await fetch(
-        "/api/product/create?userId=fe97253c-ecdd-4232-b268-d12cc8d32506",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            productName: formFields.productName,
-            productDescription: formFields.productDescription,
-            productPrice: formFields.productPrice,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const result = await fetch(`/api/product/create?userId=${id}`, {
+        method: "POST",
+        body: JSON.stringify({
+          productName: formFields.productName,
+          productDescription: formFields.productDescription,
+          productPrice: formFields.productPrice,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       const json = await result.json();
 
@@ -189,7 +188,10 @@ export default function CreateProductForm(): JSX.Element {
             type="submit"
             className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
           >
-            <FontAwesomeIcon icon={faPlus} className="mr-1 -ml-1 w-4 h-4" />
+            <FontAwesomeIcon
+              icon={faPlus}
+              className="mr-1 -ml-1 w-4 h-4"
+            />
             Adicionar
           </button>
         </form>
