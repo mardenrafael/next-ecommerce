@@ -59,15 +59,15 @@ export async function getServerSideProps(): Promise<
 
     const products = await prisma.product.findMany({
       where: {
-        userId: "a9c7e410-dc98-4646-99a8-17ed6889c525",
+        userId: "092b95db-2ac4-4341-8345-b0fc4ab0a5ef",
       },
     });
 
-    const parsedProducts: ProductTableItemProps[] = products.map((product) => {
+    const parsedProducts: ProductTableItemProps[] = products.map(product => {
       return {
         productPrice: product.price,
         productName: product.name,
-        productDescription: product.name,
+        productDescription: product.description ? product.description : "",
       };
     });
     return {
