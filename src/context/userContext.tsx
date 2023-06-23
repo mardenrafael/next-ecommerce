@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useState } from "react";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
 
 export interface UserContext {
   name: string | null;
@@ -27,11 +27,32 @@ export default function UserProvider({
   const [userName, setUserName] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+  useEffect(() => {
+    const localUserId = localStorage.getItem("userID");
+
+    if (localUserId == null) {
+      return;
+    }
+
+    setUserId(localUserId);
+  }, []);
+
   return (
     <UserContext.Provider
       value={{
         id: userId,
-        setId: setUserId,
+        setId: (id: string) => {
+          const localUserId = localStorage.getItem("userID");
+
+          if (localUserId == null) {
+            localStorage.setItem("userID", id);
+            setUserId(id);
+
+            return;
+          }
+
+          setUserId(id);
+        },
         name: userName,
         setName: setUserName,
         token: token,
